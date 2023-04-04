@@ -1,6 +1,7 @@
 {
   "name": "contentful-lib-helpers",
   "version": "0.0.1",
+  "type": "module",
   "description": "Helpers for Contentful's Content Management API",
   "homepage": "https://github.com/AtidaTech/contentful-lib-helpers",
   "engines": {
@@ -21,6 +22,7 @@
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.54.1",
+    "dotenv": "^16.0.3",
     "eslint": "^8.35.0",
     "eslint-config-prettier": "^8.7.0",
     "eslint-plugin-import": "^2.27.5",

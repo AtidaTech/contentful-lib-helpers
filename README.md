@@ -15,7 +15,13 @@
 
 # Contentful CMA Helper Library
 
-A utility library for the Contentful Management API, designed to help developers interact with the API in a more intuitive and streamlined way. This library provides functions for common tasks, such as retrieving and publishing entries, as well as tools for handling errors and logging.
+A utility library for the [Contentful Management API 🔗](https://github.com/contentful/contentful-management.js), designed to help developers interact with the API in a more intuitive and streamlined way. This library provides functions for common tasks, such as retrieving and publishing entries, as well as tools for handling errors and logging.
+
+<hr />
+
+[Features](#Features) · [Installation](#Installation) · [Usage](#Usage) · [verbosityLevel](#verbositylevel) · [To-Do](#todo) · [Contributors](#contributors) · [Acknowledgments](#acknowledgements) · [License](#license)
+
+<hr />
 
 ## Features
 - Easy-to-use functions for common tasks
@@ -26,24 +32,29 @@ A utility library for the Contentful Management API, designed to help developers
 
 ## Installation
 
-To use this helper library, you must have [Node.js](https://nodejs.org/) and [npm](http://npmjs.org) installed. 
-
-To install it, simply run:
+To use this helper library, you must have [Node.js 🔗](https://nodejs.org/) and [npm 🔗](http://npmjs.org) installed. To install it, simply run:
 
 ```shell
-npm install contentful-lib-helpers --save
+npm install @atida/contentful-lib-helpers --save
 ```
 
-Or, if using [yarn](https://yarnpkg.com/lang/en/):
+Or, if using [yarn 🔗](https://yarnpkg.com/lang/en/):
 
 ```shell
-yarn add contentful-lib-helpers
+yarn add @atida/contentful-lib-helpers
 ```
+
+### Requirements
+
+* `node` >= 14.0.0
+* `npm` >= 8.5.5
+* `contentful-management` >= 7.50.0 
 
 ## Usage
 Here are the methods available in this library and how to use them:
 * [getSpace](#getspace)
 * [getEnvironment](#getenvironment)
+* [getContentTypes](#getcontenttypes)
 
 <hr />
 
@@ -72,8 +83,8 @@ The function returns a Promise that resolves with the Space object, or null if n
 #### Example Usage
 
 ```javascript
-import { getSpace } from 'contentful-lib-helpers'
-const contentfulManagement = require('contentful-management')
+import { getSpace } from '@atida/contentful-lib-helpers'
+import contentfulManagement from 'contentful-management'
 const contentfulToken = 'your-access-token'
 const contentfulSpaceId = 'your-space-id'
 
@@ -107,7 +118,7 @@ The getEnvironment function retrieves a Contentful environment object by ID, usi
 - `contentfulToken` - The Contentful access token.
 - `contentfulSpaceId` - The ID of the space to retrieve.
 - `contentfulEnvironmentId` - The ID of the environment to retrieve (default `master`).
-- `verbosityLevel` - (optional) the level of console logging verbosity to use. See [Verbosity](#verbositylevel)
+- `verbosityLevel` - (optional) the level of console logging verbosity to use. See [Verbosity Level](#verbositylevel).
 
 #### Return Value
 The function returns a Promise that resolves with the Environment object, or null if not found.
@@ -115,8 +126,8 @@ The function returns a Promise that resolves with the Environment object, or nul
 #### Example Usage
 
 ```javascript
-import { getEnvironment } from 'contentful-lib-helpers'
-const contentfulManagement = require('contentful-management')
+import { getEnvironment } from '@atida/contentful-lib-helpers'
+import contentfulManagement from 'contentful-management'
 const contentfulToken = 'your-access-token'
 const contentfulSpaceId = 'your-space-id'
 const contentfulEnvironmentId = 'your-environment-id'
@@ -133,6 +144,38 @@ console.log(environment) // { sys: { id: 'your-environment-id', ... }, ... }
 ```
 
 <hr />
+
+
+### getContentTypes
+
+```javascript
+getContentTypes(
+    environment,
+    verbosityLevel = 1
+)
+```
+
+The getEnvironment function retrieves a Contentful environment object by ID, using the Contentful Management API.
+
+#### Parameters
+- `environment` - Environment Object (you can retrieve it with [getEnvironment](#getenvironment))
+- `verbosityLevel` - (optional) the level of console logging verbosity to use. See [Verbosity Level](#verbositylevel).
+
+#### Return Value
+The function returns A Promise that resolves with a Content-type collection if successful, or an empty array otherwise.
+
+#### Example Usage
+
+```javascript
+import contentfulManagement from 'contentful-management'
+const environment = await getEnvironment(contentfulManagement, 'access-token', 'space-id', 'environment-id')
+const allContentTypes = await getContentTypes(environment, 2)
+
+console.log(contentTypes) // ContentTypeCollection { sys: { type: 'Array' }, total: 3, skip: 0, limit: 100, items: [ {...}, {...}, {...} ] }
+```
+
+<hr />
+
 
 ## verbosityLevel
 All methods accept an optional verbosityLevel parameter. This parameter is an integer from 0 to 3 that determines the amount of console logging the function should output. A higher number means more logging. The default value is 1 (error logging)
@@ -152,7 +195,7 @@ Here a simple example of writing a function that finds an entry by slug, update 
 **Contentful Management SDK**
 
 ```javascript
-const contentfulManagement = require('contentful-management')
+import contentfulManagement from 'contentful-management'
     
 async function main() {
     const client = contentfulManagement.createClient({
@@ -217,7 +260,7 @@ await main()
 **With Contentful Lib Helpers**
 
 ```javascript
-const contentfulManagement = require('contentful-management')
+import contentfulManagement from 'contentful-management'
 import * as lib from '@atida/contentful-lib-helpers'
 
 async function main() {
@@ -274,8 +317,8 @@ await main()
 
 I would like to express my gratitude to the following parties:
 
-- [Atida](https://www.atida.com/), the company that has allowed these scripts to be open sourced. Atida is an e-commerce platform that sells beauty and medical products. Their support for open source is greatly appreciated. A special thank to <a href="https://github.com/shoopi"><img src="https://avatars.githubusercontent.com/u/1385372?v=4" width="16px;" alt="Shaya Pourmirza" style="border-radius: 50%;" /> Shaya Pourmirza</a> that has been a great promoter and supporter of this initiative inside the company. 
-- [Contentful](https://www.contentful.com/), for creating their excellent content management platform and the JavaScript CMA SDK that this library is built on. Without their work, this project would not be possible.
+- [Atida 🔗](https://www.atida.com/), the company that has allowed these scripts to be open sourced. Atida is an e-commerce platform that sells beauty and medical products. Their support for open source is greatly appreciated. A special thank to <a href="https://github.com/shoopi"><img src="https://avatars.githubusercontent.com/u/1385372?v=4" width="16px;" alt="Shaya Pourmirza" style="border-radius: 50%;" /> Shaya Pourmirza</a> that has been a great promoter and supporter of this initiative inside the company. 
+- [Contentful 🔗](https://www.contentful.com/), for creating their excellent content management platform and the JavaScript CMA SDK that this library is built on. Without their work, this project would not be possible.
 
 Thank you to everyone involved!
 

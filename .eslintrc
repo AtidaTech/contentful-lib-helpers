@@ -25,7 +25,8 @@
       {
         "json": "always",
         "svg": "always",
-        "mock": "always"
+        "mock": "always",
+        "js": "always"
       }
     ],
     "import/no-unresolved": "off",
