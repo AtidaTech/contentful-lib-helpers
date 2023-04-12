@@ -239,6 +239,7 @@ The function retrieves a Content-type object by its ID.
 - `verbosityLevel` - (optional, default `1`) the level of console logging verbosity to use. See [verbosityLevel](#-verbositylevel).
 
 #### Return Value
+
 The function returns a Promise that resolves with the content-type object if it exists, or `null` otherwise.
 
 #### Example Usage
@@ -305,10 +306,87 @@ const contentType = await getContentTypes(
 
 ### • `getAllEntriesByContentType`
 
+It gets a Collection of all the Contentful Entries, by Content-type. The peculiarity of this method is that does the pagination (default 1000 elements) for you, and the returned collection contains all the entries.
+
+#### Parameters
+- `environment` - Environment Object (you can retrieve it with [getEnvironment](#-getenvironment)).
+- `contentTypeId` - The ID of the content-type to retrieve.
+- `limit` - Number of entries to retrieve at each loop. Default `1000`.
+- `verbosityLevel` - (optional, default `1`) the level of console logging verbosity to use. See [verbosityLevel](#-verbositylevel).
+
+#### Return Value
+
+The function returns a Promise that resolves with a Collection of Contentful Entries, or an empty Collection otherwise. 
+
+Note: the decision to return an empty collection, is because collections of any kind are usually looped trough. If we returned a `null`/`false` value, that would need to be verified before looping through the elements. With the empty collection, the items can be passed to the loop (that won't loop because empty).
+
+
+#### Example Usage
+
+```javascript
+const allEntries = await getAllEntriesByContentType(
+    environment, 
+    'translation',
+    1000,
+    2
+)
+```
+
+<details>
+    <summary><code>console.log(allEntries)</code></summary>
+
+```json
+{
+  sys: { type: 'Array' },
+  total: 5,
+  skip: 0,
+  limit: 5,
+  items: [
+    { metadata: [Object], sys: [Object], fields: [Object] },
+    { metadata: [Object], sys: [Object], fields: [Object] },
+    { metadata: [Object], sys: [Object], fields: [Object] },
+    { metadata: [Object], sys: [Object], fields: [Object] },
+    { metadata: [Object], sys: [Object], fields: [Object] }
+  ]
+}
+```
+</details>
+
 <hr />
 
 ### • `getEntryIdByUniqueField`
 
+Find an Entry in a specific Content Type and locale by its unique identifier field.
+
+#### Parameters
+- `environment` - Environment Object (you can retrieve it with [getEnvironment](#-getenvironment)).
+- `fieldId` - The ID of the unique field to search for. A unique field is usually a mandatory and unique field in the Content-type (ie: slug).
+- `fieldValue` - The value to search for in the unique field.
+- `fieldLocale` - The locale to search in for the unique field. If not provided, the default locale will be used.
+- `verbosityLevel` - (optional, default `1`) the level of console logging verbosity to use. See [verbosityLevel](#-verbositylevel).
+
+#### Return Value
+
+A Promise that resolves to the Entry ID or `null` otherwise. We can then use [getEntry](#-getentry) to retrieve the Entry itself.
+
+#### Example Usage
+
+```javascript
+const entryId = await getEntryIdByUniqueField(
+    environment,
+    'translation',
+    'key',
+    'test.entry'
+)
+```
+
+<details>
+    <summary><code>console.log(entryId)</code></summary>
+
+```
+AKjzIrXfTQFS6oXjJp71Z
+```
+</details>
 <hr />
 
 ### • `getEntry`
