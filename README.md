@@ -808,7 +808,7 @@ Here we show both implementations: one using only the Contentful Management SDK 
 import contentfulManagement from 'contentful-management'
 
 async function main() {
-    const client = contentfulManagement.createClient({
+    const client = await contentfulManagement.createClient({
     accessToken: 'your-access-token',
     })
 
@@ -828,15 +828,21 @@ async function main() {
 
         if (entryId) {
             // Add tag to the entry
-            const tagName = 'your-tag-name'
+            const tagName = 'country-it'
             const entryWithTags = await environment.getEntry(entryId).then((entry) => {
-                entry.metadata = entry.metadata || {}
-                entry.metadata.tags = entry.metadata.tags || []
+                entry.metadata = entry.metadata || { tags: [] }
                 if (!entry.metadata.tags.includes(tagName)) {
-                    entry.metadata.tags.push(tagName)
+                    entry.metadata.tags.push({
+                        sys: {
+                            type: 'Link',
+                            linkType: 'Tag',
+                            id: tagName
+                        }
+                    })
                 }
-                return entry.update()
+                return entry
             })
+            await entryWithTags.update()
 
             // Publish the entry with tag
             const publishedEntry = await environment.getEntry(entryId).then((entry) => {
@@ -847,7 +853,7 @@ async function main() {
 
             console.log(`Published entry with ID ${publishedEntry.sys.id} and tag ${tagName}`)
         } else {
-            console.error(`Entry with ${uniqueFieldName}=${uniqueFieldValue} not found`)
+            console.error(`Entry not found`)
         }
     } catch (error) {
         console.error(`Error: ${error.message}`)
@@ -867,8 +873,6 @@ import contentfulManagement from 'contentful-management'
 import * as lib from '@atida/contentful-lib-helpers'
 
 async function main() {
-    const verbosity = 2
-
     const environment = await lib.getEnvironment(
         contentfulManagement,
         'your-access-token',
@@ -880,13 +884,12 @@ async function main() {
         environment,
         'page',
         'slug',
-        '/my-awesome-blog-post',
-        verbosity
+        '/my-awesome-blog-post'
     )
 
     if (entryId) {
-        await lib.addEntryTag(environment, entryId, 'your-tag', verbosity)
-        await lib.publishEntry(environment, entryId, verbosity)
+        await lib.addEntryTag(environment, entryId, 'your-tag')
+        await lib.publishEntry(environment, entryId)
     }
 }
 
