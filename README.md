@@ -6,12 +6,11 @@
 [comment]: <> (![Version]&#40;https://img.shields.io/github/package-json/v/AtidaTech/contentful-lib-helpers&#41;)
 [comment]: <> (![Downloads]&#40;https://img.shields.io/npm/dw/contentful-lib-helpers&#41;)
 
-
-<div style="text-align: center">
+<p align="center">
 
 # ![Contentful Lib Helpers](./images/logo-helpers-100.png)
 
-</div>
+</p>
 
 # Contentful CMA Helper Library
 
@@ -19,18 +18,18 @@ A utility library for the [Contentful Management API 🔗](https://github.com/co
 
 <hr />
 
-[Features](#Features) · [Installation](#Installation) · [Usage](#Usage) · [verbosityLevel](#verbositylevel) · [To-Do](#todo) · [Contributors](#contributors) · [Acknowledgments](#acknowledgements) · [License](#license)
+[✨Features](#-features) · [💡Installation](#-installation) · [🎹Usage](#-usage) · [🔊verbosityLevel](#-verbositylevel) · [📅To-Do](#-todo) · [👾Contributors](#-contributors) · [🎩Acknowledgments](#-acknowledgements) · [📄License](#-license)
 
 <hr />
 
-## Features
+## ✨ Features
 - Easy-to-use functions for common tasks
 - Compatible return types with CMA
 - Customizable verbosity level for console logging
 - Robust error handling and validation
 - Promises-based API for easy integration into async workflows
 
-## Installation
+## 💡 Installation
 
 To use this helper library, you must have [Node.js 🔗](https://nodejs.org/) and [npm 🔗](http://npmjs.org) installed. To install it, simply run:
 
@@ -50,32 +49,36 @@ yarn add @atida/contentful-lib-helpers
 * `npm` >= 8.5.5
 * `contentful-management` >= 7.50.0 
 
-## Usage
+## 🎹 Usage
 Here are the methods available in this library and how to use them:
-* [getSpace](#getspace)
-* [getEnvironment](#getenvironment)
-* [getContentTypes](#getcontenttypes)
+* [getSpace](#-getspace)
+* [getEnvironment](#-getenvironment)
+* [getContentTypes](#-getcontenttypes)
+* [getContentType](#-getcontenttype)
+* [getAllEntriesByContentType](#-getallentriesbycontenttype)
+* [getEntryIdByUniqueField](#-getentryidbyuniquefield)
+* [getEntry](#-getentry)
+* [extractStatusFromSys](#-extractstatusfromsys)
+* [publishEntry](#-publishentry)
+* [unpublishEntry](#-unpublishentry)
+* [getTagExists](#-gettagexists)
+* [addEntryTag](#-addentrytag)
+* [removeEntryTag](#-removeentrytag)
+* [getAllLocales](#-getalllocales)
+* [getDefaultLocale](#-getdefaultlocale)
+* [deleteEnvironment](#-deleteenvironment)
 
 <hr />
 
-### getSpace
+### • `getSpace`
 
-```javascript
-getSpace(
-    contentfulManagement, 
-    contentfulToken, 
-    contentfulSpaceId, 
-    verbosityLevel = 1
-)
-```
-
-The getSpace function retrieves a Contentful space object by ID, using the Contentful Management API.
+The function retrieves a Contentful space object by its ID, using the Contentful Management API.
 
 #### Parameters
 - `contentfulManagement` - The Contentful Management library.
 - `contentfulToken` - The Contentful access token.
 - `contentfulSpaceId` - The ID of the space to retrieve.
-- `verbosityLevel` - (optional) the level of console logging verbosity to use. See [Verbosity](#verbositylevel)
+- `verbosityLevel` - (optional, default `1`) the level of console logging verbosity to use. See [verbosityLevel](#-verbositylevel).
 
 #### Return Value
 The function returns a Promise that resolves with the Space object, or null if not found.
@@ -94,31 +97,40 @@ const space = await getSpace(
     contentfulSpaceId, 
     2
 )
-
-console.log(space) // { sys: { id: 'your-space-id', ... }, ... }
 ```
+
+<details>
+    <summary><code>console.log(space)</code></summary>
+
+```json
+{
+  name: 'Contentful Test Space',
+  sys: {
+    type: 'Space',
+    id: 'your-space-id',
+    version: 2,
+    createdBy: { sys: [Object] },
+    createdAt: '2023-03-31T10:41:25Z',
+    updatedBy: { sys: [Object] },
+    updatedAt: '2023-03-31T10:42:41Z',
+    organization: { sys: [Object] }
+  }
+}
+```
+</details>
 
 <hr />
 
-### getEnvironment
-```javascript
-getEnvironment(
-    contentfulManagement, 
-    contentfulToken, 
-    contentfulSpaceId, 
-    contentfulEnvironmentId = 'master', 
-    verbosityLevel = 1
-)
-```
+### • `getEnvironment`
 
-The getEnvironment function retrieves a Contentful environment object by ID, using the Contentful Management API.
+The function retrieves a Contentful environment object by ID, using the Contentful Management API.
 
 #### Parameters
 - `contentfulManagement` - The Contentful Management library.
 - `contentfulToken` - The Contentful access token.
 - `contentfulSpaceId` - The ID of the space to retrieve.
 - `contentfulEnvironmentId` - The ID of the environment to retrieve (default `master`).
-- `verbosityLevel` - (optional) the level of console logging verbosity to use. See [Verbosity Level](#verbositylevel).
+- `verbosityLevel` - (optional, default `1`) the level of console logging verbosity to use. See [verbosityLevel](#-verbositylevel).
 
 #### Return Value
 The function returns a Promise that resolves with the Environment object, or null if not found.
@@ -139,45 +151,566 @@ const environment = await getEnvironment(
     contentfulEnvironmentId,
     2
 )
-
-console.log(environment) // { sys: { id: 'your-environment-id', ... }, ... }
 ```
+
+<details>
+    <summary><code>console.log(environment)</code></summary>
+
+```json
+{
+  name: 'master',
+  sys: {
+    type: 'Environment',
+    id: 'master',
+    version: 3,
+    space: { sys: [Object] },
+    status: { sys: [Object] },
+    createdBy: { sys: [Object] },
+    createdAt: '2023-04-04T15:13:55Z',
+    updatedBy: { sys: [Object] },
+    updatedAt: '2023-04-04T15:13:56Z',
+    aliases: []
+  }
+}
+```
+</details>
 
 <hr />
 
+### • `getContentTypes`
 
-### getContentTypes
-
-```javascript
-getContentTypes(
-    environment,
-    verbosityLevel = 1
-)
-```
-
-The getEnvironment function retrieves a Contentful environment object by ID, using the Contentful Management API.
+The function retrieves get all Content-types in a Contentful environment.
 
 #### Parameters
-- `environment` - Environment Object (you can retrieve it with [getEnvironment](#getenvironment))
-- `verbosityLevel` - (optional) the level of console logging verbosity to use. See [Verbosity Level](#verbositylevel).
+- `environment` - Environment Object (you can retrieve it with [getEnvironment](#-getenvironment)).
+- `verbosityLevel` - (optional, default `1`) the level of console logging verbosity to use. See [verbosityLevel](#-verbositylevel).
 
 #### Return Value
-The function returns A Promise that resolves with a Content-type collection if successful, or an empty array otherwise.
+The function returns a Promise that resolves with a Content-type collection if successful, or an empty Collection otherwise.
+
+Note: the decision to return an empty collection, is because collections of any kind are usually looped trough. If we would be returning a `null`/`false` value, that would need to be verified before looping through the elements. With the empty collection, the items can be passed to the loop (that won't loop because empty).
 
 #### Example Usage
 
 ```javascript
-import contentfulManagement from 'contentful-management'
-const environment = await getEnvironment(contentfulManagement, 'access-token', 'space-id', 'environment-id')
-const allContentTypes = await getContentTypes(environment, 2)
-
-console.log(contentTypes) // ContentTypeCollection { sys: { type: 'Array' }, total: 3, skip: 0, limit: 100, items: [ {...}, {...}, {...} ] }
+const allContentTypes = await getContentTypes(
+    environment, 
+    2
+)
 ```
+
+<details>
+    <summary><code>console.log(allContentTypes)</code></summary>
+
+```json
+{
+  sys: { type: 'Array' },
+  total: 3,
+  skip: 0,
+  limit: 100,
+  items: [
+    {
+      sys: [Object],
+      displayField: 'key',
+      name: 'Translation',
+      description: '',
+      fields: [Array]
+    },
+    {
+      ...
+    },
+    {
+      ...
+    }
+  ]
+}
+```
+</details>
 
 <hr />
 
+### • `getContentType`
 
-## verbosityLevel
+The function retrieves a Content-type object by its ID.
+
+#### Parameters
+- `environment` - Environment Object (you can retrieve it with [getEnvironment](#-getenvironment)).
+- `contentTypeId` - The ID of the content-type to retrieve.
+- `verbosityLevel` - (optional, default `1`) the level of console logging verbosity to use. See [verbosityLevel](#-verbositylevel).
+
+#### Return Value
+The function returns a Promise that resolves with the content-type object if it exists, or `null` otherwise.
+
+#### Example Usage
+
+```javascript
+const contentType = await getContentTypes(
+    environment, 
+    'translation',
+    2
+)
+```
+
+<details>
+    <summary><code>console.log(contentType)</code></summary>
+
+```json
+{
+  sys: {
+    space: { sys: [Object] },
+    id: 'translation',
+    type: 'ContentType',
+    createdAt: '2023-03-31T11:12:04.950Z',
+    updatedAt: '2023-03-31T11:18:19.563Z',
+    environment: { sys: [Object] },
+    publishedVersion: 13,
+    publishedAt: '2023-03-31T11:18:19.563Z',
+    firstPublishedAt: '2023-03-31T11:12:05.422Z',
+    createdBy: { sys: [Object] },
+    updatedBy: { sys: [Object] },
+    publishedCounter: 7,
+    version: 14,
+    publishedBy: { sys: [Object] }
+  },
+  displayField: 'key',
+  name: 'Translation',
+  description: '',
+  fields: [
+    {
+      id: 'key',
+      name: 'key',
+      type: 'Symbol',
+      localized: false,
+      required: true,
+      validations: [Array],
+      disabled: false,
+      omitted: false
+    },
+    {
+      id: 'value',
+      name: 'value',
+      type: 'Symbol',
+      localized: true,
+      required: true,
+      validations: [],
+      disabled: false,
+      omitted: false
+    }
+  ]
+}
+```
+</details>
+
+<hr />
+
+### • `getAllEntriesByContentType`
+
+<hr />
+
+### • `getEntryIdByUniqueField`
+
+<hr />
+
+### • `getEntry`
+
+Get a Contentful entry by ID.
+
+#### Parameters
+- `environment` - Environment Object (you can retrieve it with [getEnvironment](#-getenvironment)).
+- `entryId` - The ID of the entry to get.
+- `verbosityLevel` - (optional, default `1`) the level of console logging verbosity to use. See [verbosityLevel](#-verbositylevel).
+
+#### Return Value
+
+A Promise that resolves with the entry object, or `null` if not found.
+
+#### Example Usage
+
+```javascript
+const entry = await getEntry(
+    environment,
+    'exampleEntryId',
+    2
+)
+```
+
+<details>
+    <summary><code>console.log(entry)</code></summary>
+
+```json
+{
+  metadata: { tags: [] },
+  sys: {
+    space: { sys: [Object] },
+    id: 'GKjzIfXfTQFS8oXjJp71Y',
+    type: 'Entry',
+    createdAt: '2023-04-04T15:11:47.018Z',
+    updatedAt: '2023-04-04T17:19:50.990Z',
+    environment: { sys: [Object] },
+    firstPublishedAt: '2023-04-04T17:19:25.915Z',
+    createdBy: { sys: [Object] },
+    updatedBy: { sys: [Object] },
+    publishedCounter: 2,
+    version: 9,
+    automationTags: [],
+    contentType: { sys: [Object] }
+  },
+  fields: { key: { 'en-US': 'test.entry' }, value: { 'en-US': 'Test' } }
+}
+```
+</details>
+<hr />
+
+### • `extractStatusFromSys`
+
+The function extracts the status of a Contentful Entry from its `sys` properties.
+
+#### Parameters
+- `entrySys` -  The sys properties of the Entry.
+
+#### Return Value
+
+It returns the status of an Entry: `published`, `changed`, `draft` and `archived` (in the unlikely possibility of an error, it would return `unknown`).
+
+#### Example Usage
+
+```javascript
+const entry = await getEntry(
+    environment,
+    'exampleEntryId'
+)
+
+const entryStatus = await extractStatusFromSys(entry?.sys)
+```
+
+<details>
+    <summary><code>console.log(entryStatus)</code></summary>
+
+```json
+published
+```
+</details>
+<hr />
+
+### • `publishEntry`
+
+Publishes a Contentful entry.
+
+#### Parameters
+- `environment` - Environment Object (you can retrieve it with [getEnvironment](#-getenvironment)).
+- `entryId` - The ID of the entry to publish.
+- `verbosityLevel` - (optional, default `1`) the level of console logging verbosity to use. See [verbosityLevel](#-verbositylevel).
+
+#### Return Value
+
+A Promise that resolves with `true` if the entry was published successfully, or `false` otherwise.
+
+#### Example Usage
+
+```javascript
+const isEntryPublished = await publishEntry(
+    environment,
+    'exampleEntryId',
+    2
+)
+```
+
+<details>
+    <summary><code>console.log(isEntryPublished)</code></summary>
+
+```json
+true
+```
+</details>
+<hr />
+
+### • `unpublishEntry`
+
+Unpublishes a Contentful Entry.
+
+#### Parameters
+- `environment` - Environment Object (you can retrieve it with [getEnvironment](#-getenvironment)).
+- `entryId` - The ID of the entry to unpublish.
+- `verbosityLevel` - (optional, default `1`) the level of console logging verbosity to use. See [verbosityLevel](#-verbositylevel).
+
+#### Return Value
+
+Promise that resolves with `true` if the entry was unpublished successfully, or `false` otherwise.
+
+#### Example Usage
+
+```javascript
+const isEntryUnpublished = await unpublishEntry(
+    environment,
+    'exampleEntryId',
+    2
+)
+```
+
+<details>
+    <summary><code>console.log(isEntryUnpublished)</code></summary>
+
+```json
+true
+```
+</details>
+<hr />
+
+### • `getTagExists`
+
+The function checks if a tag exists in a Contentful environment.
+
+#### Parameters
+- `environment` - Environment Object (you can retrieve it with [getEnvironment](#-getenvironment)).
+- `tagId` - The ID of the tag to check.
+- `verbosityLevel` - (optional, default `1`) the level of console logging verbosity to use. See [verbosityLevel](#-verbositylevel).
+
+#### Return Value
+
+A Promise that resolves with `true` if the tag exists, or `false` otherwise.
+
+#### Example Usage
+
+```javascript
+const tagExists = await getTagExists(
+    environment,
+    'country-en',
+    2
+)
+```
+
+<details>
+    <summary><code>console.log(tagExists)</code></summary>
+
+```
+true
+```
+</details>
+<hr />
+
+### • `addEntryTag`
+
+Adds a tag to a Contentful Entry.
+
+#### Parameters
+- `environment` - Environment Object (you can retrieve it with [getEnvironment](#-getenvironment)).
+- `entryId` - he ID of the entry to add the tag to.
+- `tagId` - The ID of the tag to add.
+- `verbosityLevel` - (optional, default `1`) the level of console logging verbosity to use. See [verbosityLevel](#-verbositylevel).
+
+#### Return Value
+
+A Promise that resolves with `true` if the tag was added successfully, or `false` otherwise.
+
+Note: the entry will need to be republished, after the tag is added. See [publishEntry](#-publishentry).
+
+#### Example Usage
+
+```javascript
+const isTagAdded = await addEntryTag(
+    environment,
+    'exampleEntryId',
+    'exampleTagId',
+    2
+)
+```
+
+<details>
+    <summary><code>console.log(isTagAdded)</code></summary>
+
+```json
+true
+```
+</details>
+<hr />
+
+### • `removeEntryTag`
+
+Removes a tag to a Contentful Entry.
+
+#### Parameters
+- `environment` - Environment Object (you can retrieve it with [getEnvironment](#-getenvironment)).
+- `entryId` - he ID of the entry to remove the tag from.
+- `tagId` - The ID of the tag to remove.
+- `verbosityLevel` - (optional, default `1`) the level of console logging verbosity to use. See [verbosityLevel](#-verbositylevel).
+
+#### Return Value
+
+A Promise that resolves with `true` if the tag was removed successfully, or `false` otherwise.
+
+Note: the entry will need to be republished, after the tag is removed. See [publishEntry](#-publishentry).
+
+#### Example Usage
+
+```javascript
+const isTagRemoved = await addEntryTag(
+    environment,
+    'exampleEntryId',
+    'exampleTagId',
+    2
+)
+```
+
+<details>
+    <summary><code>console.log(isTagRemoved)</code></summary>
+
+```json
+true
+```
+</details>
+<hr />
+
+### • `getAllLocales`
+
+Get all locales for a given environment.
+
+#### Parameters
+- `environment` - Environment Object (you can retrieve it with [getEnvironment](#-getenvironment)).
+- `verbosityLevel` - (optional, default `1`) the level of console logging verbosity to use. See [verbosityLevel](#-verbositylevel).
+
+#### Return Value
+
+A Collection of Locale objects.
+
+#### Example Usage
+
+```javascript
+const allLocales = await getAllLocales(
+    environment,
+    2
+)
+```
+
+<details>
+    <summary><code>console.log(allLocales)</code></summary>
+
+```json
+{
+  sys: { type: 'Array' },
+  total: 2,
+  skip: 0,
+  limit: 100,
+  items: [
+    {
+      name: 'English (United States)',
+      code: 'en-US',
+      fallbackCode: null,
+      default: true,
+      contentManagementApi: true,
+      contentDeliveryApi: true,
+      optional: false,
+      sys: [Object]
+    },
+    {
+      name: 'Italian (Italy)',
+      code: 'it-IT',
+      fallbackCode: 'en-US',
+      default: false,
+      contentManagementApi: true,
+      contentDeliveryApi: true,
+      optional: true,
+      sys: [Object]
+    }
+  ]
+}
+```
+</details>
+<hr />
+
+### • `getDefaultLocale`
+
+The function returns the default Locale object.
+
+#### Parameters
+- `environment` - Environment Object (you can retrieve it with [getEnvironment](#-getenvironment)).
+- `verbosityLevel` - (optional, default `1`) the level of console logging verbosity to use. See [verbosityLevel](#-verbositylevel).
+
+#### Return Value
+The function returns the locale object of the default locale of the Contentful environment.
+
+#### Example Usage
+
+```javascript
+const defaultLocale = await getDefaultLocale(
+    environment,
+    2
+)
+```
+
+<details>
+    <summary><code>console.log(defaultLocale)</code></summary>
+
+```json
+{
+  name: 'English (United States)',
+  code: 'en-US',
+  fallbackCode: null,
+  default: true,
+  contentManagementApi: true,
+  contentDeliveryApi: true,
+  optional: false,
+  sys: {
+    type: 'Locale',
+    id: '3XPgmbnnEyfxxtHVQlcfki',
+    version: 1,
+    space: { sys: [Object] },
+    environment: { sys: [Object] },
+    createdBy: { sys: [Object] },
+    createdAt: '2023-04-04T15:13:55Z',
+    updatedBy: { sys: [Object] },
+    updatedAt: '2023-04-04T15:13:55Z'
+  }
+}
+```
+</details>
+<hr />
+
+### • `deleteEnvironment`
+
+The function deletes the given Contentful environment, unless it is protected.
+
+#### Parameters
+- `environment` - Environment Object (you can retrieve it with [getEnvironment](#-getenvironment)).
+- `verbosityLevel` - (optional, default `1`) the level of console logging verbosity to use. See [verbosityLevel](#-verbositylevel).
+- `forbiddenEnvironments` - An array of environment IDs that are protected and cannot be deleted. Default protected environments: `master`, `staging`, `uat`, `dev`.
+
+#### Return Value
+The function returns true if the environment was successfully deleted, false otherwise.
+
+#### Example Usage
+
+```javascript
+import { getEnvironment, deleteEnvironment } from '@atida/contentful-lib-helpers'
+import contentfulManagement from 'contentful-management'
+const contentfulToken = 'your-access-token'
+const contentfulSpaceId = 'your-space-id'
+const contentfulEnvironmentId = 'environment-to-delete'
+
+const environment = await getEnvironment(
+    contentfulManagement,
+    contentfulToken,
+    contentfulSpaceId,
+    contentfulEnvironmentId,
+    2
+)
+
+const isEnvironmentDeleted = await deleteEnvironment(
+    environment,
+    2,
+    ['master', 'staging', 'dev']
+)
+```
+
+<details>
+    <summary><code>console.log(isEnvironmentDeleted)</code></summary>
+
+```
+true
+```
+</details>
+<hr />
+
+## 🔊 verbosityLevel
 All methods accept an optional verbosityLevel parameter. This parameter is an integer from 0 to 3 that determines the amount of console logging the function should output. A higher number means more logging. The default value is 1 (error logging)
 
 * `0` - No logging.
@@ -185,18 +718,17 @@ All methods accept an optional verbosityLevel parameter. This parameter is an in
 * `2` - Errors and debug information.
 * `3` - All logs, including info logs.
 
-## Example
+## 📟 Example
 
-Here a simple example of writing a function that finds an entry by slug, update it and add a tag. It then republish it.
+Here a simple example of writing a function that finds an entry by slug, add a tag and then republishes it.<br />
+Here we show both implementations: one using only the Contentful Management SDK and the other one, much shorter, using the Contentful Lib Helpers.
 
-<div>
-  <div style="float: left; width: 50%;">
-
-**Contentful Management SDK**
+<details>
+  <summary>With Contentful Management SDK</summary>
 
 ```javascript
 import contentfulManagement from 'contentful-management'
-    
+
 async function main() {
     const client = contentfulManagement.createClient({
     accessToken: 'your-access-token',
@@ -217,14 +749,6 @@ async function main() {
         const entryId = entry.items.length > 0 ? entry.items[0].sys.id : null
 
         if (entryId) {
-            // Update the entry fields
-            const newFields = { title: 'Updated Title' }
-            const entryToUpdate = await environment.getEntry(entryId)
-            Object.keys(newFields).forEach((field) => {
-                entryToUpdate.fields[field]['en-US'] = newFields[field]
-            })
-            const updatedEntry = await entryToUpdate.update()
-
             // Add tag to the entry
             const tagName = 'your-tag-name'
             const entryWithTags = await environment.getEntry(entryId).then((entry) => {
@@ -254,10 +778,11 @@ async function main() {
 
 await main()
 ```
+</details>
 
-</div><div style="float: left; width: 50%;">
 
-**With Contentful Lib Helpers**
+<details open="open">
+<summary>With Contentful Lib Helpers</summary>
 
 ```javascript
 import contentfulManagement from 'contentful-management'
@@ -282,8 +807,6 @@ async function main() {
     )
 
     if (entryId) {
-        const entryObject = { title: 'Updated Title' }
-        await lib.createOrUpdateEntry(environment, entryId, entryObject, null, verbosity)
         await lib.addEntryTag(environment, entryId, 'your-tag', verbosity)
         await lib.publishEntry(environment, entryId, verbosity)
     }
@@ -292,35 +815,34 @@ async function main() {
 await main()
 ```
 
-</div></div><br clear="all" />
+</details>
 
+## 📅 Todo
 
-## Todo
-
-* Add further methods (ie: `getAssets`, `uploadAsset`, `duplicateEnvironment`)
+* Add further methods (ie: `getAllAssets`, `uploadAsset`, `duplicateEnvironment`, `environmentExists`)
+* Improve Logging (+ Colors)
 * Add Tests
 * Publish NPM package
 
-## Contributors
+## 👾 Contributors
 
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/fciacchi"><img src="https://avatars.githubusercontent.com/u/58506?v=4" width="100px;" alt="Fabrizio Ciacchi" style="border-radius: 50%;" /><br /><sub><b>@fciacchi</b></sub></a><br /></td>
-    <td align="center"><a href="https://github.com/psyvic"><img src="https://avatars.githubusercontent.com/u/29251597?v=4" width="100px;" alt="Victor Hugo Aizpuruo" style="border-radius: 50%;" /><br /><sub><b>@psyvic</b></sub></a><br /></td>
-    <td align="center"><a href="https://github.com/aalduz"><img src="https://avatars.githubusercontent.com/u/11409770?v=4" width="100px;" alt="Aldo Fernández" style="border-radius: 50%;" /><br /><sub><b>@aalduz</b></sub></a><br /></td>
-    <td align="center"><a href="https://github.com/leslyto"><img src="https://avatars.githubusercontent.com/u/4264812?v=4" width="100px;" alt="Stefan Stoev" style="border-radius: 50%;" /><br /><sub><b>@leslyto</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/fciacchi"><img src="https://images.weserv.nl/?url=avatars.githubusercontent.com/u/58506?v=4&h=100&w=100&fit=cover&mask=circle&maxage=7d" width="100px;" alt="Fabrizio Ciacchi" /><br /><sub><b>@fciacchi</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/psyvic"><img src="https://images.weserv.nl/?url=avatars.githubusercontent.com/u/29251597?v=4&h=100&w=100&fit=cover&mask=circle&maxage=7d" width="100px;" alt="Victor Hugo Aizpuruo" /><br /><sub><b>@psyvic</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/aalduz"><img src="https://images.weserv.nl/?url=avatars.githubusercontent.com/u/11409770?v=4&h=100&w=100&fit=cover&mask=circle&maxage=7d" width="100px;" alt="Aldo Fernández" /><br /><sub><b>@aalduz</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/leslyto"><img src="https://images.weserv.nl/?url=avatars.githubusercontent.com/u/4264812?v=4&h=100&w=100&fit=cover&mask=circle&maxage=7d" width="100px;" alt="Stefan Stoev" /><br /><sub><b>@leslyto</b></sub></a><br /></td>
   </tr>
 </table>
 
-
-## Acknowledgements
+## 🎩 Acknowledgements
 
 I would like to express my gratitude to the following parties:
 
-- [Atida 🔗](https://www.atida.com/), the company that has allowed these scripts to be open sourced. Atida is an e-commerce platform that sells beauty and medical products. Their support for open source is greatly appreciated. A special thank to <a href="https://github.com/shoopi"><img src="https://avatars.githubusercontent.com/u/1385372?v=4" width="16px;" alt="Shaya Pourmirza" style="border-radius: 50%;" /> Shaya Pourmirza</a> that has been a great promoter and supporter of this initiative inside the company. 
+- [Atida 🔗](https://www.atida.com/), the company that has allowed these scripts to be open sourced. Atida is an e-commerce platform that sells beauty and medical products. Their support for open source is greatly appreciated. A special thank to <a href="https://github.com/shoopi"><img src="https://images.weserv.nl/?url=avatars.githubusercontent.com/u/1385372?v=4&h=16&w=16&fit=cover&mask=circle&maxage=7d" width="16px;" alt="Shaya Pourmirza" /> Shaya Pourmirza</a> that has been a great promoter and supporter of this initiative inside the company. 
 - [Contentful 🔗](https://www.contentful.com/), for creating their excellent content management platform and the JavaScript CMA SDK that this library is built on. Without their work, this project would not be possible.
 
 Thank you to everyone involved!
 
-## License
+## 📄 License
 This project is licensed under the [MIT License](LICENSE)
