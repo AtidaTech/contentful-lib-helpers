@@ -102,7 +102,7 @@ const space = await getSpace(
 <details>
     <summary><code>console.log(space)</code></summary>
 
-```json
+```js
 {
   name: 'Contentful Test Space',
   sys: {
@@ -156,7 +156,7 @@ const environment = await getEnvironment(
 <details>
     <summary><code>console.log(environment)</code></summary>
 
-```json
+```js
 {
   name: 'master',
   sys: {
@@ -202,7 +202,7 @@ const allContentTypes = await getContentTypes(
 <details>
     <summary><code>console.log(allContentTypes)</code></summary>
 
-```json
+```js
 {
   sys: { type: 'Array' },
   total: 3,
@@ -255,7 +255,7 @@ const contentType = await getContentTypes(
 <details>
     <summary><code>console.log(contentType)</code></summary>
 
-```json
+```js
 {
   sys: {
     space: { sys: [Object] },
@@ -335,7 +335,7 @@ const allEntries = await getAllEntriesByContentType(
 <details>
     <summary><code>console.log(allEntries)</code></summary>
 
-```json
+```js
 {
   sys: { type: 'Array' },
   total: 5,
@@ -415,7 +415,7 @@ const entry = await getEntry(
 <details>
     <summary><code>console.log(entry)</code></summary>
 
-```json
+```js
 {
   metadata: { tags: [] },
   sys: {
@@ -464,7 +464,7 @@ const entryStatus = await extractStatusFromSys(entry?.sys)
 <details>
     <summary><code>console.log(entryStatus)</code></summary>
 
-```json
+```
 published
 ```
 </details>
@@ -496,7 +496,7 @@ const isEntryPublished = await publishEntry(
 <details>
     <summary><code>console.log(isEntryPublished)</code></summary>
 
-```json
+```
 true
 ```
 </details>
@@ -528,7 +528,7 @@ const isEntryUnpublished = await unpublishEntry(
 <details>
     <summary><code>console.log(isEntryUnpublished)</code></summary>
 
-```json
+```
 true
 ```
 </details>
@@ -596,7 +596,7 @@ const isTagAdded = await addEntryTag(
 <details>
     <summary><code>console.log(isTagAdded)</code></summary>
 
-```json
+```
 true
 ```
 </details>
@@ -632,7 +632,7 @@ const isTagRemoved = await addEntryTag(
 <details>
     <summary><code>console.log(isTagRemoved)</code></summary>
 
-```json
+```
 true
 ```
 </details>
@@ -662,7 +662,7 @@ const allLocales = await getAllLocales(
 <details>
     <summary><code>console.log(allLocales)</code></summary>
 
-```json
+```js
 {
   sys: { type: 'Array' },
   total: 2,
@@ -718,7 +718,7 @@ const defaultLocale = await getDefaultLocale(
 <details>
     <summary><code>console.log(defaultLocale)</code></summary>
 
-```json
+```js
 {
   name: 'English (United States)',
   code: 'en-US',
