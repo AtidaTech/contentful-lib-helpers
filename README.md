@@ -13,7 +13,6 @@
 
 # Contentful CMA Helper Library
 
-
 A utility library for the [Contentful Management API 🔗](https://github.com/contentful/contentful-management.js), designed to help developers interact with the API in a more intuitive and streamlined way. This library provides functions for common tasks, such as retrieving and publishing entries, as well as tools for handling errors and logging.
 
 ### Sponsored by <a href="https://github.com/AtidaTech"><b>Atida</b> <img src="https://avatars.githubusercontent.com/u/127305035?s=200&v=4" width="14px;" alt="Atida" /></a>
@@ -146,6 +145,7 @@ Here we show both implementations: one using only the Contentful Management SDK 
     }
 })()
 ```
+
 </details>
 
 ### Note
@@ -223,6 +223,7 @@ const space = await getSpace(
   }
 }
 ```
+
 </details>
 
 <hr />
