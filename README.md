@@ -13,13 +13,17 @@
 
 # Contentful CMA Helper Library
 
+
 A utility library for the [Contentful Management API 🔗](https://github.com/contentful/contentful-management.js), designed to help developers interact with the API in a more intuitive and streamlined way. This library provides functions for common tasks, such as retrieving and publishing entries, as well as tools for handling errors and logging.
 
-<hr />
-
-[✨Features](#-features) · [💡Installation](#-installation) · [🎹Usage](#-usage) · [🔊verbosityLevel](#-verbositylevel) · [📅To-Do](#-todo) · [👾Contributors](#-contributors) · [🎩Acknowledgments](#-acknowledgements) · [📄License](#-license)
+### Sponsored by <a href="https://github.com/AtidaTech"><b>Atida</b> <img src="https://avatars.githubusercontent.com/u/127305035?s=200&v=4" width="14px;" alt="Atida" /></a>
 
 <hr />
+
+[✨ Features](#-features) · [💡 Installation](#-installation) · [📟 Example](#-example) · [🎹 Usage](#-usage) · [🔊verbosityLevel](#-verbositylevel) · [📅ToDo](#-todo) · [👾Contributors](#-contributors) · [🎩Acknowledgments](#-acknowledgements) · [📄License](#-license)
+
+<hr />
+
 
 ## ✨ Features
 - Easy-to-use functions for common tasks
@@ -47,6 +51,109 @@ yarn add contentful-lib-helpers
 * `node` >= 14.0.0
 * `npm` >= 8.5.5
 * `contentful-management` >= 7.50.0 
+
+## 📟 Example
+
+Here a simple example of writing a function that finds an entry by slug, add a tag and then republishes it.<br />
+Here we show both implementations: one using only the Contentful Management SDK and the other one, much shorter, using the Contentful Lib Helpers.
+
+<details open="open">
+<summary>With Contentful Lib Helpers</summary>
+
+```javascript
+(async function main () {
+    const contentfulManagement = require('contentful-management')
+    const lib = await import('contentful-lib-helpers')
+    const environment = await lib.getEnvironment(
+        contentfulManagement,
+        'your-access-token',
+        'your-space-id',
+        'master'
+    )
+
+    const entryId = await lib.getEntryIdByUniqueField(
+        environment,
+        'page',
+        'slug',
+        '/my-awesome-blog-post'
+    )
+
+    if (entryId) {
+        await lib.addEntryTag(environment, entryId, 'your-tag')
+        await lib.publishEntry(environment, entryId)
+    }
+})()
+```
+
+</details>
+
+
+<details>
+  <summary>Only with Contentful Management SDK</summary>
+
+```javascript
+(async function main () {
+    const contentfulManagement = require('contentful-management')
+    const client = await contentfulManagement.createClient({
+    accessToken: 'your-access-token',
+    })
+
+    try {
+        // Get the environment
+        const space = await client.getSpace('your-space-id')
+        const environment = await space.getEnvironment('master')
+
+        // Get the entry ID by unique field
+        const entry = await environment.getEntries({
+            content_type: 'page',
+            ['fields.slug']: '/my-awesome-blog-post',
+            limit: 1
+        })
+
+        const entryId = entry.items.length > 0 ? entry.items[0].sys.id : null
+
+        if (entryId) {
+            // Add tag to the entry
+            const tagName = 'country-it'
+            const entryWithTags = await environment.getEntry(entryId).then((entry) => {
+                entry.metadata = entry.metadata || { tags: [] }
+                if (!entry.metadata.tags.includes(tagName)) {
+                    entry.metadata.tags.push({
+                        sys: {
+                            type: 'Link',
+                            linkType: 'Tag',
+                            id: tagName
+                        }
+                    })
+                }
+                return entry
+            })
+            await entryWithTags.update()
+
+            // Publish the entry with tag
+            const publishedEntry = await environment.getEntry(entryId).then((entry) => {
+                entry.metadata = entry.metadata || {}
+                entry.metadata.tags = entry.metadata.tags || []
+                return entry.publish()
+            })
+
+            console.log(`Published entry with ID ${publishedEntry.sys.id} and tag ${tagName}`)
+        } else {
+            console.error(`Entry not found`)
+        }
+    } catch (error) {
+        console.error(`Error: ${error.message}`)
+    }
+})()
+```
+</details>
+
+### Note
+An alternative way to include the Contentful library as ES Module is the following:
+
+```js
+const { default: contentfulManagement } = await import('contentful-management')
+```
 
 ## 🎹 Usage
 Here are the methods available in this library and how to use them:
@@ -751,6 +858,8 @@ The function deletes the given Contentful environment, unless it is protected.
 - `verbosityLevel` - (optional, default `1`) the level of console logging verbosity to use. See [verbosityLevel](#-verbositylevel).
 - `forbiddenEnvironments` - An array of environment IDs that are protected and cannot be deleted. Default protected environments: `master`, `staging`, `uat`, `dev`.
 
+Note: the function has the `verbosityLevel` as second parameter, instead of the last one. this is to allow using the default value for `forbiddenEnvironments`, hance protecting the production and testing environments.
+
 #### Return Value
 The function returns true if the environment was successfully deleted, false otherwise.
 
@@ -795,144 +904,11 @@ All methods accept an optional verbosityLevel parameter. This parameter is an in
 * `2` - Errors and debug information.
 * `3` - All logs, including info logs.
 
-## 📟 Example
-
-Here a simple example of writing a function that finds an entry by slug, add a tag and then republishes it.<br />
-Here we show both implementations: one using only the Contentful Management SDK and the other one, much shorter, using the Contentful Lib Helpers.
-
-<details open="open">
-<summary>With Contentful Lib Helpers (ES module)</summary>
-
-```javascript
-import contentfulManagement from 'contentful-management'
-import * as lib from 'contentful-lib-helpers'
-
-async function main() {
-    const environment = await lib.getEnvironment(
-        contentfulManagement,
-        'your-access-token',
-        'your-space-id',
-        'master'
-    )
-
-    const entryId = await lib.getEntryIdByUniqueField(
-        environment,
-        'page',
-        'slug',
-        '/my-awesome-blog-post'
-    )
-
-    if (entryId) {
-        await lib.addEntryTag(environment, entryId, 'your-tag')
-        await lib.publishEntry(environment, entryId)
-    }
-}
-
-await main()
-```
-
-</details>
-
-<details>
-<summary>With Contentful Lib Helpers (CommonJS)</summary>
-
-```javascript
-(async function main () {
-    const contentfulManagement = require('contentful-management')
-    const lib = await import('contentful-lib-helpers')
-    const environment = await lib.getEnvironment(
-        contentfulManagement,
-        'your-access-token',
-        'your-space-id',
-        'master'
-    )
-
-    const entryId = await lib.getEntryIdByUniqueField(
-        environment,
-        'page',
-        'slug',
-        '/my-awesome-blog-post'
-    )
-
-    if (entryId) {
-        await lib.addEntryTag(environment, entryId, 'your-tag')
-        await lib.publishEntry(environment, entryId)
-    }
-})()
-```
-
-</details>
-
-
-<details>
-  <summary>Only with Contentful Management SDK</summary>
-
-```javascript
-import contentfulManagement from 'contentful-management'
-
-async function main() {
-    const client = await contentfulManagement.createClient({
-    accessToken: 'your-access-token',
-    })
-
-    try {
-        // Get the environment
-        const space = await client.getSpace('your-space-id')
-        const environment = await space.getEnvironment('master')
-
-        // Get the entry ID by unique field
-        const entry = await environment.getEntries({
-            content_type: 'page',
-            ['fields.slug']: '/my-awesome-blog-post',
-            limit: 1
-        })
-
-        const entryId = entry.items.length > 0 ? entry.items[0].sys.id : null
-
-        if (entryId) {
-            // Add tag to the entry
-            const tagName = 'country-it'
-            const entryWithTags = await environment.getEntry(entryId).then((entry) => {
-                entry.metadata = entry.metadata || { tags: [] }
-                if (!entry.metadata.tags.includes(tagName)) {
-                    entry.metadata.tags.push({
-                        sys: {
-                            type: 'Link',
-                            linkType: 'Tag',
-                            id: tagName
-                        }
-                    })
-                }
-                return entry
-            })
-            await entryWithTags.update()
-
-            // Publish the entry with tag
-            const publishedEntry = await environment.getEntry(entryId).then((entry) => {
-                entry.metadata = entry.metadata || {}
-                entry.metadata.tags = entry.metadata.tags || []
-                return entry.publish()
-            })
-
-            console.log(`Published entry with ID ${publishedEntry.sys.id} and tag ${tagName}`)
-        } else {
-            console.error(`Entry not found`)
-        }
-    } catch (error) {
-        console.error(`Error: ${error.message}`)
-    }
-}
-
-await main()
-```
-</details>
-
 ## 📅 Todo
 
 * Add further methods (ie: `getAllAssets`, `uploadAsset`, `duplicateEnvironment`, `environmentExists`)
 * Improve Logging (+ Colors)
 * Add Tests
-* Publish NPM package
 
 ## 👾 Contributors
 
