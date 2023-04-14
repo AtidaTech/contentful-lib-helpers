@@ -34,13 +34,13 @@ A utility library for the [Contentful Management API 🔗](https://github.com/co
 To use this helper library, you must have [Node.js 🔗](https://nodejs.org/) and [npm 🔗](http://npmjs.org) installed. To install it, simply run:
 
 ```shell
-npm install @atida/contentful-lib-helpers --save
+npm install contentful-lib-helpers --save
 ```
 
 Or, if using [yarn 🔗](https://yarnpkg.com/lang/en/):
 
 ```shell
-yarn add @atida/contentful-lib-helpers
+yarn add contentful-lib-helpers
 ```
 
 ### Requirements
@@ -86,7 +86,7 @@ The function returns a Promise that resolves with the Space object, or null if n
 #### Example Usage
 
 ```javascript
-import { getSpace } from '@atida/contentful-lib-helpers'
+import { getSpace } from 'contentful-lib-helpers'
 import contentfulManagement from 'contentful-management'
 const contentfulToken = 'your-access-token'
 const contentfulSpaceId = 'your-space-id'
@@ -138,7 +138,7 @@ The function returns a Promise that resolves with the Environment object, or nul
 #### Example Usage
 
 ```javascript
-import { getEnvironment } from '@atida/contentful-lib-helpers'
+import { getEnvironment } from 'contentful-lib-helpers'
 import contentfulManagement from 'contentful-management'
 const contentfulToken = 'your-access-token'
 const contentfulSpaceId = 'your-space-id'
@@ -758,7 +758,7 @@ The function returns true if the environment was successfully deleted, false oth
 #### Example Usage
 
 ```javascript
-import { getEnvironment, deleteEnvironment } from '@atida/contentful-lib-helpers'
+import { getEnvironment, deleteEnvironment } from 'contentful-lib-helpers'
 import contentfulManagement from 'contentful-management'
 const contentfulToken = 'your-access-token'
 const contentfulSpaceId = 'your-space-id'
@@ -870,7 +870,7 @@ await main()
 
 ```javascript
 import contentfulManagement from 'contentful-management'
-import * as lib from '@atida/contentful-lib-helpers'
+import * as lib from 'contentful-lib-helpers'
 
 async function main() {
     const environment = await lib.getEnvironment(
