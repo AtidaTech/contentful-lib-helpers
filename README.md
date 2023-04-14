@@ -1,10 +1,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![npm version](https://badge.fury.io/js/contentful-lib-helpers.svg)](https://npmjs.com/package/contentful-lib-helpers)
 ![Forks](https://img.shields.io/github/forks/AtidaTech/contentful-lib-helpers)
+![Downloads](https://img.shields.io/npm/dw/contentful-lib-helpers)
 
 [comment]: <> ([![Build Status]&#40;https://travis-ci.com/AtidaTech/contentful-lib-helpers.svg?branch=main&#41;]&#40;https://travis-ci.com/AtidaTech/contentful-lib-helpers&#41;)
-[comment]: <> (![Version]&#40;https://img.shields.io/github/package-json/v/AtidaTech/contentful-lib-helpers&#41;)
-[comment]: <> (![Downloads]&#40;https://img.shields.io/npm/dw/contentful-lib-helpers&#41;)
 
 <p align="center">
 
@@ -801,8 +800,72 @@ All methods accept an optional verbosityLevel parameter. This parameter is an in
 Here a simple example of writing a function that finds an entry by slug, add a tag and then republishes it.<br />
 Here we show both implementations: one using only the Contentful Management SDK and the other one, much shorter, using the Contentful Lib Helpers.
 
+<details open="open">
+<summary>With Contentful Lib Helpers (ES module)</summary>
+
+```javascript
+import contentfulManagement from 'contentful-management'
+import * as lib from 'contentful-lib-helpers'
+
+async function main() {
+    const environment = await lib.getEnvironment(
+        contentfulManagement,
+        'your-access-token',
+        'your-space-id',
+        'master'
+    )
+
+    const entryId = await lib.getEntryIdByUniqueField(
+        environment,
+        'page',
+        'slug',
+        '/my-awesome-blog-post'
+    )
+
+    if (entryId) {
+        await lib.addEntryTag(environment, entryId, 'your-tag')
+        await lib.publishEntry(environment, entryId)
+    }
+}
+
+await main()
+```
+
+</details>
+
 <details>
-  <summary>With Contentful Management SDK</summary>
+<summary>With Contentful Lib Helpers (CommonJS)</summary>
+
+```javascript
+(async function main () {
+    const contentfulManagement = require('contentful-management')
+    const lib = await import('contentful-lib-helpers')
+    const environment = await lib.getEnvironment(
+        contentfulManagement,
+        'your-access-token',
+        'your-space-id',
+        'master'
+    )
+
+    const entryId = await lib.getEntryIdByUniqueField(
+        environment,
+        'page',
+        'slug',
+        '/my-awesome-blog-post'
+    )
+
+    if (entryId) {
+        await lib.addEntryTag(environment, entryId, 'your-tag')
+        await lib.publishEntry(environment, entryId)
+    }
+})()
+```
+
+</details>
+
+
+<details>
+  <summary>Only with Contentful Management SDK</summary>
 
 ```javascript
 import contentfulManagement from 'contentful-management'
@@ -862,40 +925,6 @@ async function main() {
 
 await main()
 ```
-</details>
-
-
-<details open="open">
-<summary>With Contentful Lib Helpers</summary>
-
-```javascript
-import contentfulManagement from 'contentful-management'
-import * as lib from 'contentful-lib-helpers'
-
-async function main() {
-    const environment = await lib.getEnvironment(
-        contentfulManagement,
-        'your-access-token',
-        'your-space-id',
-        'master'
-    )
-
-    const entryId = await lib.getEntryIdByUniqueField(
-        environment,
-        'page',
-        'slug',
-        '/my-awesome-blog-post'
-    )
-
-    if (entryId) {
-        await lib.addEntryTag(environment, entryId, 'your-tag')
-        await lib.publishEntry(environment, entryId)
-    }
-}
-
-await main()
-```
-
 </details>
 
 ## 📅 Todo
