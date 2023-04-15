@@ -1,9 +1,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![npm version](https://badge.fury.io/js/contentful-lib-helpers.svg)](https://npmjs.com/package/contentful-lib-helpers)
+[![npm](https://img.shields.io/npm/v/contentful-lib-helpers)](https://npmjs.com/package/contentful-lib-helpers)
 ![Forks](https://img.shields.io/github/forks/AtidaTech/contentful-lib-helpers)
 ![Downloads](https://img.shields.io/npm/dw/contentful-lib-helpers)
 
-[comment]: <> ([![Build Status]&#40;https://travis-ci.com/AtidaTech/contentful-lib-helpers.svg?branch=main&#41;]&#40;https://travis-ci.com/AtidaTech/contentful-lib-helpers&#41;)
 
 <p align="center">
 
@@ -33,7 +32,9 @@ A utility library for the [Contentful Management API 🔗](https://github.com/co
 
 ## 💡 Installation
 
-To use this helper library, you must have [Node.js 🔗](https://nodejs.org/) and [npm 🔗](http://npmjs.org) installed. To install it, simply run:
+To use this helper library, you must have [NodeJS 🔗](https://nodejs.org/) and [npm 🔗](http://npmjs.org) installed. 
+
+To install it, simply run:
 
 ```shell
 npm install contentful-lib-helpers --save
@@ -54,7 +55,7 @@ yarn add contentful-lib-helpers
 ## 📟 Example
 
 Here a simple example of writing a function that finds an entry by slug, add a tag and then republishes it.<br />
-Here we show both implementations: one using only the Contentful Management SDK and the other one, much shorter, using the Contentful Lib Helpers.
+We show both implementations: one using only the Contentful Management SDK and the other one, much shorter, using the Contentful Lib Helpers.
 
 <details open="open">
 <summary>With Contentful Lib Helpers</summary>
@@ -149,11 +150,17 @@ Here we show both implementations: one using only the Contentful Management SDK 
 </details>
 
 ### Note
-An alternative way to include the Contentful library as ES Module is the following:
+Two alternative ways to include the Contentful library as ES Module are the following:
 
 ```js
+// At the beginning of the file
+import contentfulManagement from 'contentful-management'
+
+// Inside a function
 const { default: contentfulManagement } = await import('contentful-management')
 ```
+
+See also: [NodeJS modules import 🔗](https://reflectoring.io/nodejs-modules-imports/)
 
 ## 🎹 Usage
 Here are the methods available in this library and how to use them:
@@ -859,7 +866,7 @@ The function deletes the given Contentful environment, unless it is protected.
 - `verbosityLevel` - (optional, default `1`) the level of console logging verbosity to use. See [verbosityLevel](#-verbositylevel).
 - `forbiddenEnvironments` - An array of environment IDs that are protected and cannot be deleted. Default protected environments: `master`, `staging`, `uat`, `dev`.
 
-Note: the function has the `verbosityLevel` as second parameter, instead of the last one. this is to allow using the default value for `forbiddenEnvironments`, hance protecting the production and testing environments.
+Note: the function has the `verbosityLevel` as second parameter, instead of the last one. This is to allow using the default value for `forbiddenEnvironments`, hence protecting the production and testing environments.
 
 #### Return Value
 The function returns true if the environment was successfully deleted, false otherwise.
