@@ -1,9 +1,17 @@
 {
   "name": "contentful-lib-helpers",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "type": "module",
   "description": "Helpers for Contentful's Content Management API",
   "homepage": "https://github.com/AtidaTech/contentful-lib-helpers",
+  "keywords": [
+    "contentful",
+    "management",
+    "helpers",
+    "contentful-management",
+    "contentful-helpers",
+    "contentful-lib-helpers"
+  ],
   "engines": {
     "node": ">=14"
   },
