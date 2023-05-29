@@ -1,7 +1,8 @@
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/github/license/AtidaTech/contentful-lib-helpers)](https://opensource.org/licenses/MIT)
 [![npm](https://img.shields.io/npm/v/contentful-lib-helpers)](https://npmjs.com/package/contentful-lib-helpers)
-![Forks](https://img.shields.io/github/forks/AtidaTech/contentful-lib-helpers)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/AtidaTech/contentful-lib-helpers)
 ![Downloads](https://img.shields.io/npm/dw/contentful-lib-helpers)
+![Forks](https://img.shields.io/github/forks/AtidaTech/contentful-lib-helpers)
 
 
 <p align="center">
@@ -928,6 +929,8 @@ All methods accept an optional verbosityLevel parameter. This parameter is an in
     <td align="center"><a href="https://github.com/leslyto"><img src="https://images.weserv.nl/?url=avatars.githubusercontent.com/u/4264812?v=4&h=100&w=100&fit=cover&mask=circle&maxage=7d" width="100px;" alt="Stefan Stoev" /><br /><sub><b>@leslyto</b></sub></a><br /></td>
   </tr>
 </table>
+
+However, feel free to open issues or pull requests if you have suggestions or improvements to propose.
 
 ## 🎩 Acknowledgements
 
