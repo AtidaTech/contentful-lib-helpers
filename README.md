@@ -930,7 +930,8 @@ All methods accept an optional verbosityLevel parameter. This parameter is an in
   </tr>
 </table>
 
-However, feel free to open issues or pull requests if you have suggestions or improvements to propose.
+### Contributions
+Feel free to open issues or pull requests in our GitHub Repository if you have suggestions or improvements to propose.
 
 ## 🎩 Acknowledgements
 
