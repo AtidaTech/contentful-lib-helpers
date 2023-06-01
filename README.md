@@ -3,7 +3,7 @@
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/AtidaTech/contentful-lib-helpers)
 ![Downloads](https://img.shields.io/npm/dw/contentful-lib-helpers)
 ![Forks](https://img.shields.io/github/forks/AtidaTech/contentful-lib-helpers)
-
+[![Bun.sh](https://img.shields.io/badge/bun.sh-compatible-orange)](https://bun.sh)
 
 <p align="center">
 
@@ -46,6 +46,8 @@ Or, if using [yarn 🔗](https://yarnpkg.com/lang/en/):
 ```shell
 yarn add contentful-lib-helpers
 ```
+
+> Similarly, if you are using [Bun 🔗](https://bun.sh), just run `bun add contentful-lib-helpers`
 
 ### Requirements
 
@@ -159,6 +161,9 @@ import contentfulManagement from 'contentful-management'
 
 // Inside a function
 const { default: contentfulManagement } = await import('contentful-management')
+
+// If you are using Bun.sh
+const contentfulManagement = await import('contentful-management')
 ```
 
 See also: [NodeJS modules import 🔗](https://reflectoring.io/nodejs-modules-imports/)
@@ -916,7 +921,7 @@ All methods accept an optional verbosityLevel parameter. This parameter is an in
 ## 📅 Todo
 
 * Add further methods (ie: `getAllAssets`, `uploadAsset`, `duplicateEnvironment`, `environmentExists`)
-* Improve Logging (+ Colors)
+* Improve Logging (+ Colors).
 * Add Tests
 
 ## 👾 Contributors
