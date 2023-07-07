@@ -47,7 +47,7 @@ Or, if using [yarn 🔗](https://yarnpkg.com/lang/en/):
 yarn add contentful-lib-helpers
 ```
 
-> Similarly, if you are using [Bun 🔗](https://bun.sh), just run `bun add contentful-lib-helpers`
+> Similarly, if you are using [Bun 🔗](https://bun.sh), just run<br />`bun add contentful-lib-helpers`
 
 ### Requirements
 
