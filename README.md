@@ -183,9 +183,22 @@ Here are the methods available in this library and how to use them:
 * [getTagExists](#-gettagexists)
 * [addEntryTag](#-addentrytag)
 * [removeEntryTag](#-removeentrytag)
-* [getAllLocales](#-getalllocales)
-* [getDefaultLocale](#-getdefaultlocale)
 * [deleteEnvironment](#-deleteenvironment)
+
+**Locales Related**
+
+* [getAllLocales](#-getalllocales)
+* [getAllLocalesCode](#-getalllocalescode)
+* [getDefaultLocale](#-getdefaultlocale)
+* [getDefaultLocaleCode](#-getdefaultlocalecode)
+* [getDefaultValuesForLocales](#-getdefaultvaluesforlocales)
+
+**Release Related**
+
+* [duplicateEnvironment](#-duplicateenvironment)
+* [enableCdaKey](#-enablecdakey)
+* [linkAliasToEnvironment](#-linkaliastoenvironment)
+* [syncScheduledActions](#-syncscheduledActions)
 
 <hr />
 
@@ -758,6 +771,53 @@ true
 </details>
 <hr />
 
+### • `deleteEnvironment`
+
+The function deletes the given Contentful environment, unless it is protected.
+
+#### Parameters
+- `environment` - Environment Object (you can retrieve it with [getEnvironment](#-getenvironment)).
+- `verbosityLevel` - (optional, default `1`) the level of console logging verbosity to use. See [verbosityLevel](#-verbositylevel).
+- `forbiddenEnvironments` - An array of environment IDs that are protected and cannot be deleted. Default protected environments: `master`, `staging`, `uat`, `dev`.
+
+Note: the function has the `verbosityLevel` as second parameter, instead of the last one. This is to allow using the default value for `forbiddenEnvironments`, hence protecting the production and testing environments.
+
+#### Return Value
+The function returns true if the environment was successfully deleted, false otherwise.
+
+#### Example Usage
+
+```javascript
+import { getEnvironment, deleteEnvironment } from 'contentful-lib-helpers'
+import contentfulManagement from 'contentful-management'
+const contentfulToken = 'your-access-token'
+const contentfulSpaceId = 'your-space-id'
+const contentfulEnvironmentId = 'environment-to-delete'
+
+const environment = await getEnvironment(
+    contentfulManagement,
+    contentfulToken,
+    contentfulSpaceId,
+    contentfulEnvironmentId,
+    2
+)
+
+const isEnvironmentDeleted = await deleteEnvironment(
+    environment,
+    2,
+    ['master', 'staging', 'dev']
+)
+```
+
+<details>
+    <summary><code>console.log(isEnvironmentDeleted)</code></summary>
+
+```
+true
+```
+</details>
+<hr />
+
 ### • `getAllLocales`
 
 Get all locales for a given environment.
@@ -815,6 +875,37 @@ const allLocales = await getAllLocales(
 </details>
 <hr />
 
+### • `getAllLocalesCode`
+
+Get all the locale codes, as an array of strings (ie: `['en-US', 'it-IT']`)
+
+
+#### Parameters
+- `environment` - Environment Object (you can retrieve it with [getEnvironment](#-getenvironment)).
+- `verbosityLevel` - (optional, default `1`) the level of console logging verbosity to use. See [verbosityLevel](#-verbositylevel).
+
+#### Return Value
+
+An array of locale codes.
+
+#### Example Usage
+
+```javascript
+const allLocalesCode = await getAllLocalesCode(
+    environment,
+    2
+)
+```
+
+<details>
+    <summary><code>console.log(allLocalesCode)</code></summary>
+
+```js
+[ 'en-US', 'it-IT' ]
+```
+</details>
+<hr />
+
 ### • `getDefaultLocale`
 
 The function returns the default Locale object.
@@ -840,72 +931,85 @@ const defaultLocale = await getDefaultLocale(
 
 ```js
 {
-  name: 'English (United States)',
-  code: 'en-US',
-  fallbackCode: null,
-  default: true,
-  contentManagementApi: true,
-  contentDeliveryApi: true,
-  optional: false,
-  sys: {
-    type: 'Locale',
-    id: '3XPgmbnnEyfxxtHVQlcfki',
-    version: 1,
-    space: { sys: [Object] },
-    environment: { sys: [Object] },
-    createdBy: { sys: [Object] },
-    createdAt: '2023-04-04T15:13:55Z',
-    updatedBy: { sys: [Object] },
-    updatedAt: '2023-04-04T15:13:55Z'
-  }
+    name: 'English (United States)',
+        code: 'en-US',
+        fallbackCode: null,
+default: true,
+        contentManagementApi: true,
+        contentDeliveryApi: true,
+        optional: false,
+        sys: {
+        type: 'Locale',
+            id: '3XPgmbnnEyfxxtHVQlcfki',
+            version: 1,
+            space: { sys: [Object] },
+        environment: { sys: [Object] },
+        createdBy: { sys: [Object] },
+        createdAt: '2023-04-04T15:13:55Z',
+            updatedBy: { sys: [Object] },
+        updatedAt: '2023-04-04T15:13:55Z'
+    }
 }
 ```
 </details>
 <hr />
 
-### • `deleteEnvironment`
+### • `getDefaultLocaleCode`
 
-The function deletes the given Contentful environment, unless it is protected.
+The function returns the default Locale code (ie: `en-US`).
 
 #### Parameters
 - `environment` - Environment Object (you can retrieve it with [getEnvironment](#-getenvironment)).
 - `verbosityLevel` - (optional, default `1`) the level of console logging verbosity to use. See [verbosityLevel](#-verbositylevel).
-- `forbiddenEnvironments` - An array of environment IDs that are protected and cannot be deleted. Default protected environments: `master`, `staging`, `uat`, `dev`.
-
-Note: the function has the `verbosityLevel` as second parameter, instead of the last one. This is to allow using the default value for `forbiddenEnvironments`, hence protecting the production and testing environments.
 
 #### Return Value
-The function returns true if the environment was successfully deleted, false otherwise.
+The function returns default locale code, as a string.
 
 #### Example Usage
 
 ```javascript
-import { getEnvironment, deleteEnvironment } from 'contentful-lib-helpers'
-import contentfulManagement from 'contentful-management'
-const contentfulToken = 'your-access-token'
-const contentfulSpaceId = 'your-space-id'
-const contentfulEnvironmentId = 'environment-to-delete'
-
-const environment = await getEnvironment(
-    contentfulManagement,
-    contentfulToken,
-    contentfulSpaceId,
-    contentfulEnvironmentId,
-    2
-)
-
-const isEnvironmentDeleted = await deleteEnvironment(
+const defaultLocaleCode = await getDefaultLocaleCode(
     environment,
-    2,
-    ['master', 'staging', 'dev']
+    2
 )
 ```
 
 <details>
-    <summary><code>console.log(isEnvironmentDeleted)</code></summary>
+    <summary><code>console.log(defaultLocaleCode)</code></summary>
 
+```js
+en-US
 ```
-true
+</details>
+<hr />
+
+### • `getDefaultValuseForLocales`
+
+This is a very particular function. Passing a 'default' value, that can be anything (`null`, boolean, string, etc), it returns an object whose keys are the locales, and the values are the default value passed.
+
+This is used by our other NPM package [Contentful CLI Migrations](https://www.npmjs.com/package/contentful-cli-migrations), to build locale-agnostic migrations. Meaning that the locales don't need to be hard-coded when setting up default values in a Contentful Javascript migration.
+
+#### Parameters
+- `environment` - Environment Object (you can retrieve it with [getEnvironment](#-getenvironment)).
+- `defaultValue` - It can be a value of any type (usually `null`, empty string `''` or a boolean value `true/false`)
+
+#### Return Value
+The function returns an object whose keys are the locales and the values are the default value passed.
+
+#### Example Usage
+
+```javascript
+const objectDefaultValues = await getDefaultValuesForLocales(
+    environment,
+    true
+)
+```
+
+<details>
+    <summary><code>console.log(objectDefaultValues)</code></summary>
+
+```js
+{ 'en-US': true, 'it-IT': true }
 ```
 </details>
 <hr />
