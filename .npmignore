@@ -1,6 +1,8 @@
 build/*
 lib/in-progress
 lib/in-progress/*
+lib/assets
+lib/assets/*
 node_modules/*
 .env
 .env*
