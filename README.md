@@ -47,7 +47,7 @@ Or, if using [yarn 🔗](https://yarnpkg.com/lang/en/):
 yarn add contentful-lib-helpers
 ```
 
-> Similarly, if you are using [Bun 🔗](https://bun.sh), just run `bun add contentful-lib-helpers`
+> Similarly, if you are using [Bun 🔗](https://bun.sh), just run<br />`bun add contentful-lib-helpers`
 
 ### Requirements
 
@@ -170,8 +170,15 @@ See also: [NodeJS modules import 🔗](https://reflectoring.io/nodejs-modules-im
 
 ## 🎹 Usage
 Here are the methods available in this library and how to use them:
+
+**Space/Environment**
+
 * [getSpace](#-getspace)
 * [getEnvironment](#-getenvironment)
+* [deleteEnvironment](#-deleteenvironment)
+
+**Content-types/Entries**
+
 * [getContentTypes](#-getcontenttypes)
 * [getContentType](#-getcontenttype)
 * [getAllEntriesByContentType](#-getallentriesbycontenttype)
@@ -180,12 +187,27 @@ Here are the methods available in this library and how to use them:
 * [extractStatusFromSys](#-extractstatusfromsys)
 * [publishEntry](#-publishentry)
 * [unpublishEntry](#-unpublishentry)
+
+**Tags**
+
 * [getTagExists](#-gettagexists)
 * [addEntryTag](#-addentrytag)
 * [removeEntryTag](#-removeentrytag)
+
+**Locales**
+
 * [getAllLocales](#-getalllocales)
+* [getAllLocalesCode](#-getalllocalescode)
 * [getDefaultLocale](#-getdefaultlocale)
-* [deleteEnvironment](#-deleteenvironment)
+* [getDefaultLocaleCode](#-getdefaultlocalecode)
+* [getDefaultValuesForLocales](#-getdefaultvaluesforlocales)
+
+**Release**
+
+* [duplicateEnvironment](#-duplicateenvironment)
+* [enableCdaKey](#-enablecdakey)
+* [linkAliasToEnvironment](#-linkaliastoenvironment)
+* [syncScheduledActions](#-syncscheduledActions)
 
 <hr />
 
@@ -758,6 +780,53 @@ true
 </details>
 <hr />
 
+### • `deleteEnvironment`
+
+The function deletes the given Contentful environment, unless it is protected.
+
+#### Parameters
+- `environment` - Environment Object (you can retrieve it with [getEnvironment](#-getenvironment)).
+- `verbosityLevel` - (optional, default `1`) the level of console logging verbosity to use. See [verbosityLevel](#-verbositylevel).
+- `forbiddenEnvironments` - An array of environment IDs that are protected and cannot be deleted. Default protected environments: `master`, `staging`, `uat`, `dev`.
+
+Note: the function has the `verbosityLevel` as second parameter, instead of the last one. This is to allow using the default value for `forbiddenEnvironments`, hence protecting the production and testing environments.
+
+#### Return Value
+The function returns true if the environment was successfully deleted, false otherwise.
+
+#### Example Usage
+
+```javascript
+import { getEnvironment, deleteEnvironment } from 'contentful-lib-helpers'
+import contentfulManagement from 'contentful-management'
+const contentfulToken = 'your-access-token'
+const contentfulSpaceId = 'your-space-id'
+const contentfulEnvironmentId = 'environment-to-delete'
+
+const environment = await getEnvironment(
+    contentfulManagement,
+    contentfulToken,
+    contentfulSpaceId,
+    contentfulEnvironmentId,
+    2
+)
+
+const isEnvironmentDeleted = await deleteEnvironment(
+    environment,
+    2,
+    ['master', 'staging', 'dev']
+)
+```
+
+<details>
+    <summary><code>console.log(isEnvironmentDeleted)</code></summary>
+
+```
+true
+```
+</details>
+<hr />
+
 ### • `getAllLocales`
 
 Get all locales for a given environment.
@@ -815,6 +884,37 @@ const allLocales = await getAllLocales(
 </details>
 <hr />
 
+### • `getAllLocalesCode`
+
+Get all the locale codes, as an array of strings (ie: `['en-US', 'it-IT']`)
+
+
+#### Parameters
+- `environment` - Environment Object (you can retrieve it with [getEnvironment](#-getenvironment)).
+- `verbosityLevel` - (optional, default `1`) the level of console logging verbosity to use. See [verbosityLevel](#-verbositylevel).
+
+#### Return Value
+
+An array of locale codes.
+
+#### Example Usage
+
+```javascript
+const allLocalesCode = await getAllLocalesCode(
+    environment,
+    2
+)
+```
+
+<details>
+    <summary><code>console.log(allLocalesCode)</code></summary>
+
+```js
+[ 'en-US', 'it-IT' ]
+```
+</details>
+<hr />
+
 ### • `getDefaultLocale`
 
 The function returns the default Locale object.
@@ -840,75 +940,221 @@ const defaultLocale = await getDefaultLocale(
 
 ```js
 {
-  name: 'English (United States)',
-  code: 'en-US',
-  fallbackCode: null,
-  default: true,
-  contentManagementApi: true,
-  contentDeliveryApi: true,
-  optional: false,
+    name: 'English (United States)',
+    code: 'en-US',
+    fallbackCode: null,
+    default: true,
+    contentManagementApi: true,
+    contentDeliveryApi: true,
+    optional: false,
+    sys: {
+        type: 'Locale',
+        id: '3XPgmbnnEyfxxtHVQlcfki',
+        version: 1,
+        space: { sys: [Object] },
+        environment: { sys: [Object] },
+        createdBy: { sys: [Object] },
+        createdAt: '2023-04-04T15:13:55Z',
+        updatedBy: { sys: [Object] },
+        updatedAt: '2023-04-04T15:13:55Z'
+    }
+}
+```
+</details>
+<hr />
+
+### • `getDefaultLocaleCode`
+
+The function returns the default Locale code (ie: `en-US`).
+
+#### Parameters
+- `environment` - Environment Object (you can retrieve it with [getEnvironment](#-getenvironment)).
+- `verbosityLevel` - (optional, default `1`) the level of console logging verbosity to use. See [verbosityLevel](#-verbositylevel).
+
+#### Return Value
+The function returns default locale code, as a string.
+
+#### Example Usage
+
+```javascript
+const defaultLocaleCode = await getDefaultLocaleCode(
+    environment,
+    2
+)
+```
+
+<details>
+    <summary><code>console.log(defaultLocaleCode)</code></summary>
+
+```js
+en-US
+```
+</details>
+<hr />
+
+### • `getDefaultValuseForLocales`
+
+This is a very particular function. Passing a 'default' value, that can be anything (`null`, boolean, string, etc), it returns an object whose keys are the locales, and the values are the default value passed.
+
+This is used by our other NPM package [Contentful CLI Migrations](https://www.npmjs.com/package/contentful-cli-migrations), to build locale-agnostic migrations. Meaning that the locales don't need to be hard-coded when setting up default values in a Contentful Javascript migration.
+
+#### Parameters
+- `environment` - Environment Object (you can retrieve it with [getEnvironment](#-getenvironment)).
+- `defaultValue` - It can be a value of any type (usually `null`, empty string `''` or a boolean value `true/false`)
+
+#### Return Value
+The function returns an object whose keys are the locales and the values are the default value passed.
+
+#### Example Usage
+
+```javascript
+const objectDefaultValues = await getDefaultValuesForLocales(
+    environment,
+    true
+)
+```
+
+<details>
+    <summary><code>console.log(objectDefaultValues)</code></summary>
+
+```js
+{ 'en-US': true, 'it-IT': true }
+```
+</details>
+<hr />
+
+### • `duplicateEnvironment`
+
+Given a source Environment id (ie: `master`), it creates a duplicated with a new Environment id. The duplication does not 'copy' the Scheduled Content, for which you will need to use the method [syncScheduledActions](#-syncscheduledactions).
+
+#### Parameters
+- `space` - Differently from other methods, it uses the Space Object (you can retrieve it with [getSpace](#-getspace)).
+- `sourceEnvironmentId` - The source environment that will be duplicated (default: `master`).
+- `destinationEnvironmentId` - The ID/Name of the new environment.
+- `verbosityLevel` - (optional, default `1`) the level of console logging verbosity to use. See [verbosityLevel](#-verbositylevel).
+
+#### Return Value
+The function returns an Environment object that can be queried or manipulated to perform further actions.
+
+#### Example Usage
+
+```javascript
+const newEnvironment = await duplicateEnvironment(
+    space,
+    'master',
+    'release-1.25.5',
+    3
+)
+```
+
+<details>
+    <summary><code>console.log(newEnvironment)</code></summary>
+
+```js
+{
+  name: 'release-1.25.5',
   sys: {
-    type: 'Locale',
-    id: '3XPgmbnnEyfxxtHVQlcfki',
+    type: 'Environment',
+    id: 'release-1.25.5',
     version: 1,
     space: { sys: [Object] },
-    environment: { sys: [Object] },
+    status: { sys: [Object] },
     createdBy: { sys: [Object] },
-    createdAt: '2023-04-04T15:13:55Z',
+    createdAt: '2023-07-24T14:19:26Z',
     updatedBy: { sys: [Object] },
-    updatedAt: '2023-04-04T15:13:55Z'
+    updatedAt: '2023-07-24T14:19:26Z',
+    aliases: []
   }
 }
 ```
 </details>
 <hr />
 
-### • `deleteEnvironment`
 
-The function deletes the given Contentful environment, unless it is protected.
+### • `enableCdaKey`
+
+This function is needed when we want to enable an Environment for a particular CDA Key. For example a duplicate of the `master` Environment will need the same CDA Key that is used to query the current master.
+
+> Note: It's a good habit to name the CDA Key with the same name as the Environment. This because the API can query the Key only by name. So it is recommended to a be a lowercase name without punctuation or spaces.
 
 #### Parameters
-- `environment` - Environment Object (you can retrieve it with [getEnvironment](#-getenvironment)).
+- `space` - Differently from other methods, it uses the Space Object (you can retrieve it with [getSpace](#-getspace)).
+- `cdaKeyName` - The 'name' of the CDA Key. Usually should match an environment name. Recommended to use lowercase, no punctuation and no spaces.
+- `targetEnvironmentId` - The Environment id for which the CDA Key will be enabled.
 - `verbosityLevel` - (optional, default `1`) the level of console logging verbosity to use. See [verbosityLevel](#-verbositylevel).
-- `forbiddenEnvironments` - An array of environment IDs that are protected and cannot be deleted. Default protected environments: `master`, `staging`, `uat`, `dev`.
-
-Note: the function has the `verbosityLevel` as second parameter, instead of the last one. This is to allow using the default value for `forbiddenEnvironments`, hence protecting the production and testing environments.
 
 #### Return Value
-The function returns true if the environment was successfully deleted, false otherwise.
+`true` if the CDA Key has been enabled. `false` otherwise.
 
 #### Example Usage
 
 ```javascript
-import { getEnvironment, deleteEnvironment } from 'contentful-lib-helpers'
-import contentfulManagement from 'contentful-management'
-const contentfulToken = 'your-access-token'
-const contentfulSpaceId = 'your-space-id'
-const contentfulEnvironmentId = 'environment-to-delete'
-
-const environment = await getEnvironment(
-    contentfulManagement,
-    contentfulToken,
-    contentfulSpaceId,
-    contentfulEnvironmentId,
-    2
-)
-
-const isEnvironmentDeleted = await deleteEnvironment(
-    environment,
-    2,
-    ['master', 'staging', 'dev']
+const enabledCdaKey = await enableCdaKey(
+    space,
+    'master',
+    'release-1.25.5',
+    3
 )
 ```
 
 <details>
-    <summary><code>console.log(isEnvironmentDeleted)</code></summary>
+    <summary><code>console.log(enabledCdaKey)</code></summary>
 
-```
+```js
 true
 ```
 </details>
 <hr />
+
+### • `linkAliasToEnvironment`
+
+Given an Environment id and and Alias, it links the Alias to that Environment. This function has to be used to switch, for example the current `master` alias to a new release Envirionment.
+
+#### Parameters
+- `space` - Differently from other methods, it uses the Space Object (you can retrieve it with [getSpace](#-getspace)).
+- `sourceEnvironmentId` - The ID of the source Environment that will be linked.
+- `destinationEnvironmentId` - The ID of the Alias to which the Environment will be linked to.
+- `releaseRegEx` - Regular expression to identify release Environments.
+- `protectedEnvironments` - Safety measure when deleting old release to not deleted important Environments.
+- `deleteOldReleases` - If ture, it deletes all release Environments, except the newly linked one and the previous one.
+- `verbosityLevel` - (optional, default `1`) the level of console logging verbosity to use. See [verbosityLevel](#-verbositylevel).
+
+#### Return Value
+The function does not return any value, but it does return a detailed error message in case of failure.
+
+#### Example Usage
+
+```javascript
+await linkAliasToEnvironment(
+    space,
+    'release-1.25.5',
+    'master'
+)
+```
+
+### • `syncScheduledActions`
+
+When duplicating an Environment, the Scheduled Actions are not usually carried over. This function copy those Scheduled Actions between two environments.
+
+#### Parameters
+- `space` - Differently from other methods, it uses the Space Object (you can retrieve it with [getSpace](#-getspace)).
+- `sourceEnvironmentId` - The source environment that contains the Scheduled Actions.
+- `destinationEnvironmentId` - The destination environment to which those Actions will be copied to.
+- `verbosityLevel` - (optional, default `1`) the level of console logging verbosity to use. See [verbosityLevel](#-verbositylevel).
+
+#### Return Value
+The function does not return any value, but it does return a detailed error message in case of failure.
+
+#### Example Usage
+
+```javascript
+ await syncScheduledActions(
+    space,
+    'master',
+    'release-1.25.5',
+    3
+)
+```
 
 ## 🔊 verbosityLevel
 All methods accept an optional verbosityLevel parameter. This parameter is an integer from 0 to 3 that determines the amount of console logging the function should output. A higher number means more logging. The default value is 1 (error logging)
@@ -920,7 +1166,7 @@ All methods accept an optional verbosityLevel parameter. This parameter is an in
 
 ## 📅 Todo
 
-* Add further methods (ie: `getAllAssets`, `uploadAsset`, `duplicateEnvironment`, `environmentExists`)
+* Add further methods (ie: `getAllAssets`, `uploadAsset`, ...)
 * Improve Logging (+ Colors).
 * Add Tests
 
