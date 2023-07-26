@@ -25,6 +25,7 @@
     "lint": "node_modules/eslint/bin/eslint.js --resolve-plugins-relative-to ./ --ext js,mjs,cjs,jsx,ts,tsx ./lib",
     "lint-fix": "node_modules/eslint/bin/eslint.js --resolve-plugins-relative-to ./ --ext js,mjs,cjs,jsx,ts,tsx ./lib --fix"
   },
+  "main":"index.js",
   "dependencies": {
     "contentful-management": ">7.50.0",
     "natural-orderby": "^2.0.3"
