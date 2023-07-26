@@ -19,7 +19,7 @@ A utility library for the [Contentful Management API 🔗](https://github.com/co
 
 <hr />
 
-[✨ Features](#-features) · [💡 Installation](#-installation) · [📟 Example](#-example) · [🎹 Usage](#-usage) · [🔊verbosityLevel](#-verbositylevel) · [📅ToDo](#-todo) · [👾Contributors](#-contributors) · [🎩Acknowledgments](#-acknowledgements) · [📄License](#-license)
+[✨ Features](#-features) · [💡 Installation](#-installation) · [📟 Example](#-example) · [🎹 Usage](#-usage) · [🔊 verbosityLevel](#-verbositylevel) · [📅 ToDo](#-todo) · [👾 Contributors](#-contributors) · [🎩 Acknowledgments](#-acknowledgements) · [📄 License](#-license)
 
 <hr />
 
@@ -29,7 +29,7 @@ A utility library for the [Contentful Management API 🔗](https://github.com/co
 - Compatible return types with CMA
 - Customizable verbosity level for console logging
 - Robust error handling and validation
-- Promises-based API for easy integration into async workflows
+- Async/await API for easy integration into async workflows
 
 ## 💡 Installation
 
@@ -51,8 +51,8 @@ yarn add contentful-lib-helpers
 
 ### Requirements
 
-* `node` >= 14.0.0
-* `npm` >= 8.5.5
+* `node` >= 16.0.0
+* `npm` >= 8.19.4
 * `contentful-management` >= 7.50.0 
 
 ## 📟 Example
@@ -1116,7 +1116,7 @@ Given an Environment id and and Alias, it links the Alias to that Environment. T
 - `destinationEnvironmentId` - The ID of the Alias to which the Environment will be linked to.
 - `releaseRegEx` - Regular expression to identify release Environments.
 - `protectedEnvironments` - Safety measure when deleting old release to not deleted important Environments.
-- `deleteOldReleases` - If ture, it deletes all release Environments, except the newly linked one and the previous one.
+- `deleteOldReleases` - If true, it deletes all release Environments, except the newly linked one and the previous one.
 - `verbosityLevel` - (optional, default `1`) the level of console logging verbosity to use. See [verbosityLevel](#-verbositylevel).
 
 #### Return Value
@@ -1134,7 +1134,7 @@ await linkAliasToEnvironment(
 
 ### • `syncScheduledActions`
 
-When duplicating an Environment, the Scheduled Actions are not usually carried over. This function copy those Scheduled Actions between two environments.
+When duplicating an Environment, the Scheduled Actions are not usually carried over. This function copies those Scheduled Actions between two environments.
 
 #### Parameters
 - `space` - Differently from other methods, it uses the Space Object (you can retrieve it with [getSpace](#-getspace)).
