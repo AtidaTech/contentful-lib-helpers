@@ -207,7 +207,7 @@ Here are the methods available in this library and how to use them:
 * [duplicateEnvironment](#-duplicateenvironment)
 * [enableCdaKey](#-enablecdakey)
 * [linkAliasToEnvironment](#-linkaliastoenvironment)
-* [syncScheduledActions](#-syncscheduledActions)
+* [syncScheduledActions](#-syncscheduledactions)
 
 <hr />
 
