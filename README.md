@@ -19,7 +19,7 @@ A utility library for the [Contentful Management API 🔗](https://github.com/co
 
 <hr />
 
-[✨ Features](#-features) · [💡 Installation](#-installation) · [📟 Example](#-example) · [🎹 Usage](#-usage) · [🔊 verbosityLevel](#-verbositylevel) · [📅 ToDo](#-todo) · [👾 Contributors](#-contributors) · [🎩 Acknowledgments](#-acknowledgements) · [📄 License](#-license)
+[✨ Features](#-features) · [💡 Installation](#-installation) · [📟 Example](#-example) · [🎹 Usage](#-usage) · [🔊 verbosityLevel](#-verbositylevel) · [📅 ToDo](#-todo) · [👾 Contributors](#-contributors) · [🎩 Acknowledgments](#-acknowledgements) · [📚 Collection](#-other-scripts-in-the-same-collection) · [📄 License](#-license)
 
 <hr />
 
@@ -1192,6 +1192,16 @@ I would like to express my gratitude to the following parties:
 - [Contentful 🔗](https://www.contentful.com/), for creating their excellent content management platform and the JavaScript CMA SDK that this library is built on. Without their work, this project would not be possible.
 
 Thank you to everyone involved!
+
+## 📚 Other Scripts in the same collection
+
+We produce a bunch of interesting packages for Contentful. You might want to check them out:
+
+* **Contentful Lib Helpers** ([GitHub](https://github.com/AtidaTech/contentful-lib-helpers/) and [NpmJS](https://www.npmjs.com/package/contentful-lib-helpers)): Utility Library for Contentful CMS.
+* **Contentful CLI Export** ([GitHub](https://github.com/AtidaTech/contentful-cli-export/) and [NpmJS](https://www.npmjs.com/package/contentful-cli-export)): Simplifies making Backup of your Environment.
+* **Contentful CLI Migrations** ([GitHub](https://github.com/AtidaTech/contentful-cli-migrations/) and [NpmJS](https://www.npmjs.com/package/contentful-cli-migrations)): Automating Contentful Migrations.
+* **Contentful CLI Release** ([GitHub](https://github.com/AtidaTech/contentful-cli-release/) and [NpmJS](https://www.npmjs.com/package/contentful-cli-release)): Easy Environments sync at deployment.
+* **Contentful CLI Sync** ([GitHub](https://github.com/AtidaTech/contentful-cli-sync/) and [NpmJS](https://www.npmjs.com/package/contentful-cli-sync)): Contentful tool to sync data across Spaces and Environments.
 
 ## 📄 License
 This project is licensed under the [MIT License](LICENSE)
