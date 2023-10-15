@@ -19,7 +19,7 @@ A utility library for the [Contentful Management API 🔗](https://github.com/co
 
 <hr />
 
-[✨ Features](#-features) · [💡 Installation](#-installation) · [📟 Example](#-example) · [🎹 Usage](#-usage) · [🔊verbosityLevel](#-verbositylevel) · [📅ToDo](#-todo) · [👾Contributors](#-contributors) · [🎩Acknowledgments](#-acknowledgements) · [📄License](#-license)
+[✨ Features](#-features) · [💡 Installation](#-installation) · [📟 Example](#-example) · [🎹 Usage](#-usage) · [🔊 verbosityLevel](#-verbositylevel) · [📅 ToDo](#-todo) · [👾 Contributors](#-contributors) · [🎩 Acknowledgments](#-acknowledgements) · [📚 Collection](#-other-scripts-in-the-same-collection) · [📄 License](#-license)
 
 <hr />
 
@@ -29,7 +29,7 @@ A utility library for the [Contentful Management API 🔗](https://github.com/co
 - Compatible return types with CMA
 - Customizable verbosity level for console logging
 - Robust error handling and validation
-- Promises-based API for easy integration into async workflows
+- Async/await API for easy integration into async workflows
 
 ## 💡 Installation
 
@@ -51,8 +51,8 @@ yarn add contentful-lib-helpers
 
 ### Requirements
 
-* `node` >= 14.0.0
-* `npm` >= 8.5.5
+* `node` >= 16.0.0
+* `npm` >= 8.19.4
 * `contentful-management` >= 7.50.0 
 
 ## 📟 Example
@@ -207,7 +207,7 @@ Here are the methods available in this library and how to use them:
 * [duplicateEnvironment](#-duplicateenvironment)
 * [enableCdaKey](#-enablecdakey)
 * [linkAliasToEnvironment](#-linkaliastoenvironment)
-* [syncScheduledActions](#-syncscheduledActions)
+* [syncScheduledActions](#-syncscheduledactions)
 
 <hr />
 
@@ -1116,7 +1116,7 @@ Given an Environment id and and Alias, it links the Alias to that Environment. T
 - `destinationEnvironmentId` - The ID of the Alias to which the Environment will be linked to.
 - `releaseRegEx` - Regular expression to identify release Environments.
 - `protectedEnvironments` - Safety measure when deleting old release to not deleted important Environments.
-- `deleteOldReleases` - If ture, it deletes all release Environments, except the newly linked one and the previous one.
+- `deleteOldReleases` - If true, it deletes all release Environments, except the newly linked one and the previous one.
 - `verbosityLevel` - (optional, default `1`) the level of console logging verbosity to use. See [verbosityLevel](#-verbositylevel).
 
 #### Return Value
@@ -1134,7 +1134,7 @@ await linkAliasToEnvironment(
 
 ### • `syncScheduledActions`
 
-When duplicating an Environment, the Scheduled Actions are not usually carried over. This function copy those Scheduled Actions between two environments.
+When duplicating an Environment, the Scheduled Actions are not usually carried over. This function copies those Scheduled Actions between two environments.
 
 #### Parameters
 - `space` - Differently from other methods, it uses the Space Object (you can retrieve it with [getSpace](#-getspace)).
@@ -1192,6 +1192,18 @@ I would like to express my gratitude to the following parties:
 - [Contentful 🔗](https://www.contentful.com/), for creating their excellent content management platform and the JavaScript CMA SDK that this library is built on. Without their work, this project would not be possible.
 
 Thank you to everyone involved!
+
+## 📚 Other Scripts in the same collection
+
+We produce a bunch of interesting packages for Contentful. You might want to check them out:
+
+* **Contentful Lib Helpers** ([GitHub](https://github.com/AtidaTech/contentful-lib-helpers/) and [NpmJS](https://www.npmjs.com/package/contentful-lib-helpers)): Utility Library for Contentful CMS.
+* **Contentful CLI Export** ([GitHub](https://github.com/AtidaTech/contentful-cli-export/) and [NpmJS](https://www.npmjs.com/package/contentful-cli-export)): Simplifies making Backup of your Environment.
+* **Contentful CLI Migrations** ([GitHub](https://github.com/AtidaTech/contentful-cli-migrations/) and [NpmJS](https://www.npmjs.com/package/contentful-cli-migrations)): Automating Contentful Migrations.
+
+[//]: # (* **Contentful CLI Release** &#40;[GitHub]&#40;https://github.com/AtidaTech/contentful-cli-release/&#41; and [NpmJS]&#40;https://www.npmjs.com/package/contentful-cli-release&#41;&#41;: Easy Environments sync at deployment.)
+
+[//]: # (* **Contentful CLI Sync** &#40;[GitHub]&#40;https://github.com/AtidaTech/contentful-cli-sync/&#41; and [NpmJS]&#40;https://www.npmjs.com/package/contentful-cli-sync&#41;&#41;: Contentful tool to sync data across Spaces and Environments.)
 
 ## 📄 License
 This project is licensed under the [MIT License](LICENSE)
