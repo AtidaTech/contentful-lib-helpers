@@ -2,8 +2,8 @@ build/*
 lib/in-progress
 lib/in-progress/*
 node_modules/*
+.DS_Store
 .env
 .env*
 test.js
 test*.js
-.DS_Store

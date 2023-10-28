@@ -51,8 +51,8 @@ yarn add contentful-lib-helpers
 
 ### Requirements
 
-* `node` >= 16.0.0
-* `npm` >= 8.19.4
+* `node` >= 18.0.0
+* `npm` >= 9.5.0
 * `contentful-management` >= 7.50.0 
 
 ## 📟 Example
@@ -1197,11 +1197,10 @@ Thank you to everyone involved!
 
 We produce a bunch of interesting packages for Contentful. You might want to check them out:
 
-* **Contentful Lib Helpers** ([GitHub](https://github.com/AtidaTech/contentful-lib-helpers/) and [NpmJS](https://www.npmjs.com/package/contentful-lib-helpers)): Utility Library for Contentful CMS.
-* **Contentful CLI Export** ([GitHub](https://github.com/AtidaTech/contentful-cli-export/) and [NpmJS](https://www.npmjs.com/package/contentful-cli-export)): Simplifies making Backup of your Environment.
-* **Contentful CLI Migrations** ([GitHub](https://github.com/AtidaTech/contentful-cli-migrations/) and [NpmJS](https://www.npmjs.com/package/contentful-cli-migrations)): Automating Contentful Migrations.
-
-[//]: # (* **Contentful CLI Release** &#40;[GitHub]&#40;https://github.com/AtidaTech/contentful-cli-release/&#41; and [NpmJS]&#40;https://www.npmjs.com/package/contentful-cli-release&#41;&#41;: Easy Environments sync at deployment.)
+* **Contentful Lib Helpers** ([GitHub](https://github.com/AtidaTech/contentful-lib-helpers/) and [NpmJS](https://www.npmjs.com/package/contentful-lib-helpers)): Utility Library for Contentful Management API.
+* **Contentful CLI Export** ([GitHub](https://github.com/AtidaTech/contentful-cli-export/) and [NpmJS](https://www.npmjs.com/package/contentful-cli-export)): Simplifies backup of your Contentful Environment.
+* **Contentful CLI Migrations** ([GitHub](https://github.com/AtidaTech/contentful-cli-migrations/) and [NpmJS](https://www.npmjs.com/package/contentful-cli-migrations)): Tool to automate and scale Contentful Migrations.
+* **Contentful CLI Release** ([GitHub](https://github.com/AtidaTech/contentful-cli-release/) and [NpmJS](https://www.npmjs.com/package/contentful-cli-release)): Release utilities to deploy Contentful in a CI/CD.
 
 [//]: # (* **Contentful CLI Sync** &#40;[GitHub]&#40;https://github.com/AtidaTech/contentful-cli-sync/&#41; and [NpmJS]&#40;https://www.npmjs.com/package/contentful-cli-sync&#41;&#41;: Contentful tool to sync data across Spaces and Environments.)
 
