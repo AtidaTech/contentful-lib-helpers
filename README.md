@@ -1169,6 +1169,7 @@ All methods accept an optional verbosityLevel parameter. This parameter is an in
 * Add further methods (ie: `getAllAssets`, `uploadAsset`, ...)
 * Improve Logging (+ Colors).
 * Add Tests
+* Add Support for [Yargs](https://www.npmjs.com/package/yargs) and [Chalk](https://www.npmjs.com/package/chalk)
 
 ## 👾 Contributors
 

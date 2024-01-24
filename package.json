@@ -28,6 +28,7 @@
   "main":"index.js",
   "dependencies": {
     "contentful-management": ">7.50.0",
+    "follow-redirects": ">=1.15.4",
     "natural-orderby": "^2.0.3"
   },
   "devDependencies": {
