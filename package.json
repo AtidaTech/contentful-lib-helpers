@@ -1,6 +1,6 @@
 {
   "name": "contentful-lib-helpers",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "type": "module",
   "description": "Helpers for Contentful's Content Management API",
   "homepage": "https://github.com/AtidaTech/contentful-lib-helpers",
