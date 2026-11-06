@@ -48,5 +48,8 @@
     "lib/",
     "COMPATIBILITY.md",
     "CHANGELOG.md"
-  ]
+  ],
+  "overrides": {
+    "minimatch": "^11.0.5"
+  }
 }
